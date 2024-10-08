@@ -5,7 +5,7 @@
  The one in our case was `echo PWN > COLLEGE`
  which just inputted the word "PWN" to the file `COLLEGE`.
  
-** pwn.college{EQYXImWQC1D6g5vsLhjVWCcmroh.dRjN1QDL4kDN0czW}**
+**pwn.college{EQYXImWQC1D6g5vsLhjVWCcmroh.dRjN1QDL4kDN0czW}**
 
 # #2 REDIRECTING-MORE-OUTPUT
 
