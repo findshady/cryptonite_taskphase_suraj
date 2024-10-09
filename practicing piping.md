@@ -64,4 +64,12 @@ The final command is `/challenge/run 2>&1 | grep pwn.college`
 
 # #9 duplicating-piped-data-with-tee
 
+In this challenge, we need to intercept the output of `/chjallenge/challenge` and read the contents using the `cat` command. The first command we are going to use is `/challenge/pwn | tee challenge | /challenge/college`. Upon reading the contents of 'challenge' using `cat challenge`, it gives us a secret code and tells us the format to use it. Once we have succesfully used the secret code in the right format, it gives us the flag.
 
+**pwn.college{kqKFODx2KvYHiaZb6YiKYYDVvRi.dFjM5QDL4kDN0czW}**
+
+# #10 writing-to-multiple-programs
+
+Since we're supposed to use `tee` to process two substitutions, the simple command would be ` /challenge/hack | tee >(/challenge/the) >(/challenge/planet)`.
+
+# #11 
