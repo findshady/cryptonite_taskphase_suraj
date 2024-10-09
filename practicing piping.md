@@ -68,7 +68,8 @@ In this challenge, we need to intercept the output of `/chjallenge/challenge` an
 
 **pwn.college{kqKFODx2KvYHiaZb6YiKYYDVvRi.dFjM5QDL4kDN0czW}**
 
-# #10 writing-to-multiple-programs
+
+
 
 Since we're supposed to use `tee` to process two substitutions, the simple command would be ` /challenge/hack | tee >(/challenge/the) >(/challenge/planet)`.
 
