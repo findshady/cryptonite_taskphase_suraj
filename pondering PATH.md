@@ -41,7 +41,7 @@ chmod u=rwx win
 Now, all we have to do is add the default home path to the file `PATH` by using 
 
 ```bash
-PATH="~"
+PATH='~'
 ```
 
 Finally, we run this using `/challenge/run`
