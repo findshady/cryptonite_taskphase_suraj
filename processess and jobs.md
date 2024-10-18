@@ -4,9 +4,9 @@ In this challenge we learned about how to list process and make them user-readab
 
 The command that I am going to use for this challenge is `ps aux` where `ps` is just to list the current processes and `aux` is a special command that combines the elements of 3 different commands, 
 
-`**a**: lists processes for all users.
-**u**: makes the output user-readable.
-**x**: lists process that aren't running in a terminal.`
+ **a** : lists processes for all users.
+**u** : makes the output user-readable.
+**x** : lists process that aren't running in a terminal.
 
 So to get the flag, all I did was to enter the command `ps aux` and look for a funny named file which i found and when opened, gave me the flag.
 
