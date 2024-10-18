@@ -32,9 +32,9 @@ Well here, we start a root shell using `su` followed by an argument, which in th
 
   
 
-We're told that the password, is cross-checked against the database `/etc/passwd`, which were moved to `/etc/shadow`. Further reading tell us the basics of how to access a leaked `/etc/shadow` file to get a password. Also learned about the `jack` command. So the get the password of a user called **Zardus**, we're going to be working with a leaked `/etc/shadow` file that is already provided to us. 
+We're told that the password is cross-checked against the database `/etc/passwd`, which were moved to `/etc/shadow`. Further reading tell us the basics of how to access a leaked `/etc/shadow` file to get a password. Also learned about the `jack` command. So the get the password of a user called **Zardus**, we're going to be working with a leaked `/etc/shadow` file that is already provided to us. 
 
-Our first command is ```
+Our first command is 
 ```
 jack /challenge/shadow-leak
 ```
