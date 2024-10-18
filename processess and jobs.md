@@ -44,7 +44,8 @@ Once the post suspend clarity hits, we can wash our sins by using the `fg` comma
 
 This challenge involves us running `/challenge/run`, suspending it by using `^Z` and then bring it back but in the **background** this time by using `bg /challenge/run`. Now all we have to do is run `challenge/run` again to get our flag.
 
-**pwn.college{kkAIjpD0QWWrc0mwCkI41Bpvhri.ddDN4QDL4kDN0czW}**
+**pwn.college{kkAIjpD0QWWrc0mwCkI41Bpvhri.ddDN4QDL4kDN0czW}
+**
 # #7 foregrounding-processes
 
 Like the title says, we can bring processes that are in the background to the foreground just by using a simple `fg` followed by the process name. This level included us bringing `/challenge/run` to the foreground AFTER we resumed it in the background (the process has been explained in my previous challenge write-up).
