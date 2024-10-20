@@ -32,11 +32,11 @@ Well here, we start a root shell using `su` followed by an argument, which in th
 
   
 
-We're told that the password is cross-checked against the database `/etc/passwd`, which were moved to `/etc/shadow`. Further reading tell us the basics of how to access a leaked `/etc/shadow` file to get a password. Also learned about the `jack` command. So the get the password of a user called **Zardus**, we're going to be working with a leaked `/etc/shadow` file that is already provided to us. 
+We're told that the password is cross-checked against the database `/etc/passwd`, which were moved to `/etc/shadow`. Further reading tell us the basics of how to access a leaked `/etc/shadow` file to get a password. Also learned about the `john` command. So the get the password of a user called **Zardus**, we're going to be working with a leaked `/etc/shadow` file that is already provided to us. 
 
 Our first command is 
 ```
-jack /challenge/shadow-leak
+john /challenge/shadow-leak
 ```
 
 and then it tells us to enter basically any key (except "Q") and then it gives us a list. However, a better and more user friendly output is achieved by using the command-
