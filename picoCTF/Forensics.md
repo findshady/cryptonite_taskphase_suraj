@@ -29,7 +29,7 @@ Our `.bmp` file is finally viewable and looks like this
 ![Pasted image 20241106231531](https://github.com/user-attachments/assets/8f92e26a-3e40-4901-a065-17d595ff4f94)
 *tv(1).bmp*
 
-*bummer.*
+***bummer.***
 
 * Since this image seems to be in a weird resolution, I put myself on a mission to change it's dimensions in order to see if the flag is in one of the corners or somewhere in the actual image itself.
 
@@ -99,7 +99,7 @@ And the image was this
 * Getting comfortable with cryptography related tools such as `exiftool` and `binwalk`. 
 
 * That when inputting hex data into the hex editor, the characters of the hex data must be in a different order.
-	***Example:** 
+	***Example:*** 
 			To input the number 1134, it's hex value is 0x46e.
 			but when I input it into the hex editor, I'm supposed to input it in the format `6E 0`
 
