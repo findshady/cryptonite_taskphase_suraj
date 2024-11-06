@@ -6,7 +6,7 @@
 **Thought Process**
 
 * Since the file that is given to us has no extension, I put it in on https://hexed.it/ and looked up it's header file to find out that the file given is a `.bmp`or a **bitmap** file. So i renamed it to add the extension to the end.
-* Since I had done a similar challenge in OASIS CTF, I knew I had to compare it's header to the header of another bitmap file so I did.
+* Since I had done a similar challenge in **OASIS CTF**, I knew I had to compare it's header to the header of another bitmap file so I did.
 * I copied almost exactly what my sample bitmap image's header file.
 
 For reference, here is the header file of the provided file (renamed to `tv.bmp`):
@@ -21,7 +21,7 @@ and here is the header file of a sample bitmap image I got off the internet:
 
 After making some changes and making our header file look similar to the header file of the sample image, we get: 
 
-![Pasted image 20241106230548](https://github.com/user-attachments/assets/44790ea5-e9f4-4c4a-9313-76ea5bfe1e27)
+![Pasted image 20241106231258](https://github.com/user-attachments/assets/24d35915-1e3a-4725-957e-315dd0d5a9dc)
 
 
 Our `.bmp` file is finally viewable and looks like this
