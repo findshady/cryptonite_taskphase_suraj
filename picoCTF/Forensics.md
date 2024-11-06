@@ -102,7 +102,7 @@ And the image was this
 
   ***Example:*** 
 			To input the number 1134, it's hex value is 0x46e.
-			but when I input it into the hex editor, I'm supposed to input it in the format `6E 0`
+			but when I input it into the hex editor, I'm supposed to input it in the format `6E 04`
 
 
 **Mistakes Made**
