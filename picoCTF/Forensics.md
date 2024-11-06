@@ -27,7 +27,6 @@ After making some changes and making our header file look similar to the header 
 Our `.bmp` file is finally viewable and looks like this
 
 ![Pasted image 20241106231531](https://github.com/user-attachments/assets/8f92e26a-3e40-4901-a065-17d595ff4f94)
-
 *tv(1).bmp*
 
 bummer.
