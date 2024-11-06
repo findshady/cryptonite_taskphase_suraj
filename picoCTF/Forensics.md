@@ -99,7 +99,8 @@ And the image was this
 * Getting comfortable with cryptography related tools such as `exiftool` and `binwalk`. 
 
 * That when inputting hex data into the hex editor, the characters of the hex data must be in a different order.
-	***Example:*** 
+
+  ***Example:*** 
 			To input the number 1134, it's hex value is 0x46e.
 			but when I input it into the hex editor, I'm supposed to input it in the format `6E 0`
 
