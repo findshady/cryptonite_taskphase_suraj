@@ -5,7 +5,7 @@
 
 **Thought Process**
 
-* Since the file that is given to us has no extension, I put it in on [https://hexed.it/] and looked up it's header file to find out that the file given is a `.bmp`or a **bitmap** file. So i renamed it to add the extension to the end.
+* Since the file that is given to us has no extension, I put it in on https://hexed.it/ and looked up it's header file to find out that the file given is a `.bmp`or a **bitmap** file. So i renamed it to add the extension to the end.
 * Since I had done a similar challenge in OASIS CTF, I knew I had to compare it's header to the header of another bitmap file so I did.
 * I copied almost exactly what my sample bitmap image's header file.
 
