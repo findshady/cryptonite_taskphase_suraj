@@ -9,22 +9,25 @@
 * Since I had done a similar challenge in OASIS CTF, I knew I had to compare it's header to the header of another bitmap file so I did.
 * I copied almost exactly what my sample bitmap image's header file.
 
-For reference, here is the header file of the provided file (renamed to `tv.bmp):
+For reference, here is the header file of the provided file (renamed to `tv.bmp`):
 
 ![Pasted image 20241106230908](https://github.com/user-attachments/assets/71cddea2-5cf0-4990-9daa-d39c4b3ef163)
 
 
 and here is the header file of a sample bitmap image I got off the internet:
 
-![[Pasted image 20241106230846.png]]
+![Pasted image 20241106230846](https://github.com/user-attachments/assets/402ce9fc-b051-485b-8f24-89f749a7a82a)
+
 
 After making some changes and making our header file look similar to the header file of the sample image, we get: 
 
-![[Pasted image 20241106231258.png]]
+![Pasted image 20241106230548](https://github.com/user-attachments/assets/44790ea5-e9f4-4c4a-9313-76ea5bfe1e27)
+
 
 Our `.bmp` file is finally viewable and looks like this
 
-![[Pasted image 20241106231531.png]]
+![Pasted image 20241106231531](https://github.com/user-attachments/assets/8f92e26a-3e40-4901-a065-17d595ff4f94)
+
 *tv(1).bmp*
 
 bummer.
@@ -75,11 +78,13 @@ To know what value I needed to increase the height to, i knew it needed to be a 
 
 Our new hex header looks like this
 
-![[Pasted image 20241106235710.png]]
+![Pasted image 20241106235710](https://github.com/user-attachments/assets/8b13ca56-57e8-470f-85b2-83c4023928a6)
+
 
 And the image was this
 
-![[Pasted image 20241106235751.png]]
+![Pasted image 20241106235751](https://github.com/user-attachments/assets/50c4e1e7-eaa0-4410-88a6-161099745711)
+
  
 
 **New Things Learnt**
