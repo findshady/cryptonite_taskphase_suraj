@@ -11,7 +11,8 @@
 
 For reference, here is the header file of the provided file (renamed to `tv.bmp):
 
-![[Pasted image 20241106230908.png]]
+![Pasted image 20241106230908](https://github.com/user-attachments/assets/71cddea2-5cf0-4990-9daa-d39c4b3ef163)
+
 
 and here is the header file of a sample bitmap image I got off the internet:
 
