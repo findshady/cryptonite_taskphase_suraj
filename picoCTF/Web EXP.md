@@ -36,7 +36,8 @@ Website is a simple HTML based website with a search bar that invites us to ente
 * Now, by reading the hints, we can tell that these files are located at `/usr/share/nginx/html/`, however, our flag file is located at the **root** or just `/`. (It's path is /flag.txt).
 * Now, to go one directory back in Linux or windows, we use the command `..`, so i assumed this would be something related to that.
 
-	First, I tried changing the url to include  `../../../../flag.txt` at the end, but in vain.
+* First, I tried changing the url to include  `../../../../flag.txt` (we're four directories in, so `../` four times to get to the home/root directory) at the end, but in vain.
+	
 	Next, I tried inputting the same into the given search box and it outputted the flag.
 
 	![alt text](image-2.png)
