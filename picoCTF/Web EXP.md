@@ -6,7 +6,9 @@
 **Thought Process**
 
 * We're given the website [http://mercury.picoctf.net:6418/](http://mercury.picoctf.net:6418/)
-* Website is a simple HTML based website with a search bar that invites us to enter the names of different kinds of cookies. 
+![alt text](image.png)
+
+Website is a simple HTML based website with a search bar that invites us to enter the names of different kinds of cookies. 
 * Since this obviously has something to do with cookies, I immediately went to a cookie editor extension that I use, and noticed that when I entered, let's say the suggested text "snickerdoodle" into the search bar, it redirected me to a second page with the message "That is a cookie! Not very special though...".
 * When I inputted the above text, the `value` parameter of the existing cookie changed from **-1** to **0**. 
 * Now, while on the second page, I change the `value` parameter to a **2** to see what happens and the name of the cookie changed to a different one. 
@@ -25,7 +27,7 @@
 
 # Forbidden Paths
 
-**Flag: *``picoCTF{7h3_p47h_70_5ucc355_6db46514}
+**Flag:**``picoCTF{7h3_p47h_70_5ucc355_6db46514}``
 
 **Thought Process**
 
