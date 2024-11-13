@@ -39,7 +39,7 @@ Website is a simple HTML based website with a search bar that invites us to ente
 	First, I tried changing the url to include  `../../../../flag.txt` at the end, but in vain.
 	Next, I tried inputting the same into the given search box and it outputted the flag.
 
-	![alt text](image-1.png)
+	![alt text](image-2.png)
 
 
 **Mistakes Made**
