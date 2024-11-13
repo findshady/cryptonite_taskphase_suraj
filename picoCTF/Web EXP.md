@@ -39,5 +39,8 @@ Website is a simple HTML based website with a search bar that invites us to ente
 	First, I tried changing the url to include  `../../../../flag.txt` at the end, but in vain.
 	Next, I tried inputting the same into the given search box and it outputted the flag.
 
+	![alt text](image-1.png)
+
+
 **Mistakes Made**
 * Spent a lot of time in PowerShell because I thought this involved changing the path there using certain commands. 
