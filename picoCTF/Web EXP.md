@@ -6,7 +6,7 @@
 **Thought Process**
 
 * We're given the website [http://mercury.picoctf.net:6418/](http://mercury.picoctf.net:6418/)
-![alt text](image.png)
+![image](https://github.com/user-attachments/assets/f778a142-4cf3-4c82-b107-eb92453b1690)
 
 Website is a simple HTML based website with a search bar that invites us to enter the names of different kinds of cookies. 
 * Since this obviously has something to do with cookies, I immediately went to a cookie editor extension that I use, and noticed that when I entered, let's say the suggested text "snickerdoodle" into the search bar, it redirected me to a second page with the message "That is a cookie! Not very special though...".
@@ -40,7 +40,7 @@ Website is a simple HTML based website with a search bar that invites us to ente
 	
 	Next, I tried inputting the same into the given search box and it outputted the flag.
 
-	![alt text](image-2.png)
+![image](https://github.com/user-attachments/assets/86380036-bacb-407e-9f60-9760984d4f36)
 
 
 **Mistakes Made**
