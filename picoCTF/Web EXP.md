@@ -45,3 +45,4 @@ Website is a simple HTML based website with a search bar that invites us to ente
 
 **Mistakes Made**
 * Spent a lot of time in PowerShell because I thought this involved changing the path there using certain commands. 
+* Tried appending the relative path to the URL instead of the textbox at first.
