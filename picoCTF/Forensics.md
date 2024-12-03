@@ -124,7 +124,18 @@ binwalk -e tv.bmp
 * https://stackoverflow.com/questions/1973903/reading-and-parsing-the-width-height-property-of-a-bitmap
 * https://www.rapidtables.com/convert/number/binary-to-hex.html
 
+# m00nwalk
 
+**Flag: `picoCTF{beep_boop_im_in_space}`**
+
+**Thought Process**
+
+* Looked up the hint and it was related to SSTV tech for which i tried looking for decoders online but i could barely find any.
+* Ended up downloading a mobile app called [Robot36](https://play.google.com/store/apps/details?id=xdsopl.robot36&hl=en_IN). 
+* Used `Scotty 1` as the other hint suggested.
+* Placed my headphones to my phone's mic and it gave me this .png file.
+
+![WhatsApp Image 2024-12-03 at 16 42 55_f18be0c0](https://github.com/user-attachments/assets/94feb516-ac30-400b-843e-e79e9f49d0bd)
 
 
 
