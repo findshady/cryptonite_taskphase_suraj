@@ -137,5 +137,31 @@ binwalk -e tv.bmp
 
 ![WhatsApp Image 2024-12-03 at 16 42 55_f18be0c0](https://github.com/user-attachments/assets/94feb516-ac30-400b-843e-e79e9f49d0bd)
 
+**New Things Learnt**
+
+* SSTV decoding
+
+
+#  Trivial Flag Transfer Protocol
+
+**Flag:`picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}`**
+
+**Thought Process**
+
+* Since the given file was of the format .pcapng and I had dealt with this in an earlier challenge, I already had Wireshark installed.
+* I opened the file in Wireshark and came across this-
+
+![image](https://github.com/user-attachments/assets/5a34cc5c-94d3-4062-9271-b7a08f9a3652)
+
+* After doing some online research on how to go about such challenges, one of the tips online recommended downloading objects by going to File->Export Objects->TFTP(which I assumed as the majority of the file protocols were TFTP).
+
+![image](https://github.com/user-attachments/assets/5d0030f0-398b-4253-b173-12dd316cef1f)
+
+* After downloading the files, we're met with 3 pictures in .bmp format, an instructions .txt file, and 2 other files. Let's start with the contents of the other file, which when combined, became cipher text that was `IUSEDTHEPROGRAMANDHIDITWITH-DUEDILIGENCE.CHECKOUTTHEPHOTOS` when decoded [ROT-13]. The instructions.txt file also had cipher text inside of it that translated to `TFTPDOESNTENCRYPTOURTRAFFICSOWEMUSTDISGUISEOURFLAGTRANSFER FIGUREOUTAWAYTOHIDETHEFLAGANDIWILLCHECKBACKFORTHEPLAN`. 
+* This made it more than clear that we're supposed to look thru the photos to find our flag.
+
+* After reading the hint, I submitted the photos in [Aperi'Solve](https://www.aperisolve.com/), but didn't find anything useful for some reason. So I ran `steghide` on it and it asked for a passkey, which I guessed would be `DUEDILIGENCE` based off the decoded cipher texts.
+
+* It then generated a file flag.txt that contained the flag.
 
 
