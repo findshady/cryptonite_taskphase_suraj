@@ -121,6 +121,8 @@ Finally, to get the contents of `flag.txt`, we use simple Linux commands like `l
 After entering the commands in PowerShell for both test cases, one that returns "all pre-requisites are met" and the other that returns "Microsoft Words needs to be installed", We can now navigate to the temp directory by using the shortcut Win+R, and then entering `%temp%`.
 
 Here, we find the files
+
+
 ![Pasted image 20241207080332](https://github.com/user-attachments/assets/063029f7-4737-4a5e-8849-023e51ec8f94)
 
 
