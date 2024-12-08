@@ -163,7 +163,7 @@ Now, extracting only the characters in between the '', our string (and contents 
 
 # Vault Door 3
 
-**Flag: `jU5t_a_s1mpl3_an4gr4m_4_u_c79a21`**
+**Flag: `picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}`**
 
 **Thought Process:**
 
