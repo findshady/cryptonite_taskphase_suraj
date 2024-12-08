@@ -158,7 +158,7 @@ password.charAt(31) == '4';
 
 ```
 
-Now, extracting only the characters in between the '', our string (and contents of our flag) is `d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4
+Now, extracting only the characters in between the '', our string (and contents of our flag) is `d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4`
 
 
 # Vault Door 3
