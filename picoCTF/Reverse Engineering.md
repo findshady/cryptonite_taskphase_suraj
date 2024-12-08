@@ -339,7 +339,7 @@ main:
 
 I shall explain the first few commands and new commands as we come across them:
 
-* First, [sp,12] basically refers to the memory in the stack +12, and in that memory we're going to store the RHS, that is `w0` in this case.
+* First, [sp,12] basically refers to the memory in the stack +12, and in that memory we're going to store (**str**) the RHS, that is `w0` in this case.
 * Next, `mov` w0,79 refers to moving the number **79** into the register w0.
 * This continues till line 16, where we're met with a new command `ldr`, which is used to load a value from memory into a register. So it moves the value corresponding to [sp,20] which is 7 (line 13) to the register `w0`. 
 * In line 18, we come across the command `lsl`, which performs **Logical Left Shift** operation on the given registers.  The computation is in the above image. All computations were made using a simple python program.
