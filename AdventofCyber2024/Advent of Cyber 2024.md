@@ -269,4 +269,88 @@ Now, all we have to do is go to the `malstrings.txt` file and **Ctrl+F**  and en
 
 
 
+# Day 7
+
+**New Things Learnt**
+* Today's challenge is based on AWS(Amazon Web Services), which is a cloud computing platform that offers a large number of services including computing, storage, content delivery, databases, analytics and more.
+* Learnt about CloudWatch, which is a centralized AWS observability service that provides systematics, logs and alarms.
+* Learnt about **JQ**, which is a command line tool that transforms and filters logs of JSON data into meaningful data to gain security insights.
+
+
+For this challenge, following the instructions for the most part is learning basic commands of how to filter out JSON logs, but one command in particular gives us the answer to the first two questions.
+
+![Pasted image 20241208095316](https://github.com/user-attachments/assets/021c05f6-4720-46c5-b8e7-c0b98ae9db2f)
+
+
+1. The other activity is `PutObject`.
+2. The source IP addresses related to the activities is `53.94.201.69`.
+
+To continue the investigation, we shall input our second command which shows the events that took place and their source as well as an event key.
+The command (provided in the THM room) is ```bash
+```bash
+jq -r '["Event_Time", "Event_Source", "Event_Name", "User_Name", "Source_IP"],(.Records[] | select(.userIdentity.userName == "glitch") | [.eventTime, .eventSource, .eventName, .userIdentity.userName // "N/A", .sourceIPAddress // "N/A"]) | @tsv' cloudtrail_log.json | column -t -s $'\t'
+```
+
+
+![Pasted image 20241208095749](https://github.com/user-attachments/assets/6e75c58e-550c-4032-8c73-e8f4f292ba95)
+
+
+3. The AWS service generating the ConsoleLogin event is `signin.amazonaws.com `
+4. The ConsoleLogin event was trigged at the time `2024-11-28T15:21:54Z`
+and the obvious answer to 
+5. The name of user created by **mcskidy** is `glitch`
+
+Now, to find out what access was awarded, we're going to enter in the command 
+```bash
+jq '.Records[] | select(.eventSource=="iam.amazonaws.com" and .eventName== "AttachUserPolicy")' cloudtrail_log.json
+```
+
+to show information about the assignment of the privilege under the event name "AttachUserPolicy".
+
+![Pasted image 20241208100911](https://github.com/user-attachments/assets/879d062c-2632-46b9-a694-fa86ea3cf8ce)
+
+
+6. glitch was assigned `AdministratorAccess`
+
+Now, to find the IP that `mayor_malware` used, we use the command
+```bash
+jq -r '["Event_Time", "Event_Source", "Event_Name", "User_Name", "Source_IP"], (.Records[] | select(.sourceIPAddress=="53.94.201.69") | [.eventTime, .eventSource, .eventName, .userIdentity.userName // "N/A", .sourceIPAddress // "N/A"]) | @tsv' cloudtrail_log.json | column -t -s $'\t'
+```
+
+which extracts information related to the events along with IPs and in a readable format.
+
+![Pasted image 20241208101204](https://github.com/user-attachments/assets/782e676c-ee50-40fd-aec8-912fee013fb2)
+
+
+as we can see,
+7. `mayor_malware` has the same IP has `mcskidy`, which is `53.94.201.69`.
+
+Now that we know `mayor_malware` was impersonating `mcskidy` to perform his malicious activities, `mcskidy`'s actual IP can be found using the command 
+```bash
+jq -r '["Event_Time","Event_Source","Event_Name", "User_Name","User_Agent","Source_IP"],(.Records[] | select(.userIdentity.userName=="PLACEHOLDER") | [.eventTime, .eventSource, .eventName, .userIdentity.userName // "N/A",.userAgent // "N/A",.sourceIPAddress // "N/A"]) | @tsv' cloudtrail_log.json | column -t -s $'\t'
+```
+
+but we replace "PLACEHOLDER" with mcskidy and we're shown this
+
+![Pasted image 20241208101506](https://github.com/user-attachments/assets/f8e2f39b-bdb0-4a6a-ab18-89a241811afb)
+
+
+Clearly,
+8. `mcskidy`'s IP turns out to be `31.210.15.79`.
+
+Now that we know it's him, to find out the bank account number that he has transferred all the funds to, we're gonna use the command 
+
+```bash
+grep INSERT rds.log
+```
+
+to look(or `grep`) for the word "INSERT" from the logs to extract information about this.
+
+![Pasted image 20241208101830](https://github.com/user-attachments/assets/bebf8749-e556-425b-baef-eb01effe5ee1)
+
+
+The first few transactions are to the right bank account, but towards the bottom we see that they have been meddled with and now lead to `mayor_malware`'s bank account number which is 
+
+9. `2394 6912 7723 1294`
+
 
