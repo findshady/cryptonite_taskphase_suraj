@@ -286,7 +286,7 @@ For this challenge, following the instructions for the most part is learning bas
 2. The source IP addresses related to the activities is `53.94.201.69`.
 
 To continue the investigation, we shall input our second command which shows the events that took place and their source as well as an event key.
-The command (provided in the THM room) is ```bash
+The command (provided in the THM room) is 
 ```bash
 jq -r '["Event_Time", "Event_Source", "Event_Name", "User_Name", "Source_IP"],(.Records[] | select(.userIdentity.userName == "glitch") | [.eventTime, .eventSource, .eventName, .userIdentity.userName // "N/A", .sourceIPAddress // "N/A"]) | @tsv' cloudtrail_log.json | column -t -s $'\t'
 ```
@@ -323,6 +323,8 @@ which extracts information related to the events along with IPs and in a readabl
 
 
 as we can see,
+
+
 7. `mayor_malware` has the same IP has `mcskidy`, which is `53.94.201.69`.
 
 Now that we know `mayor_malware` was impersonating `mcskidy` to perform his malicious activities, `mcskidy`'s actual IP can be found using the command 
@@ -336,6 +338,8 @@ but we replace "PLACEHOLDER" with mcskidy and we're shown this
 
 
 Clearly,
+
+
 8. `mcskidy`'s IP turns out to be `31.210.15.79`.
 
 Now that we know it's him, to find out the bank account number that he has transferred all the funds to, we're gonna use the command 
