@@ -242,4 +242,129 @@ int main(){
 
 which directly outputted our flag.
 
+**Incorrect Tangents**
+* Tried doing it manually the first time, while it can be done, it is time consuming and the room for error is extremely high.
+
+
+
+# ARMssembly 1
+
+**Flag: `picoCTF{00000D2A}`**
+
+**Thought Process**
+* Did a lot of reading online about the format of the code.
+
+The code I was given for this chall was: 
+
+```assembly
+	.arch armv8-a
+	.file	"chall_1.c"
+	.text
+	.align	2
+	.global	func
+	.type	func, %function
+func:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]			
+	mov	w0, 79					
+	str	w0, [sp, 16]		
+	mov	w0, 7				
+	str	w0, [sp, 20]			
+	mov	w0, 3					
+	str	w0, [sp, 24]			
+	ldr	w0, [sp, 20]			
+	ldr	w1, [sp, 16]			
+	lsl	w0, w1, w0				
+	str	w0, [sp, 28]		
+	ldr	w1, [sp, 28]			
+	ldr	w0, [sp, 24]			
+	sdiv	w0, w1, w0		
+	str	w0, [sp, 28]			
+	ldr	w1, [sp, 28]		
+	ldr	w0, [sp, 12]		
+	sub	w0, w1, w0			
+	str	w0, [sp, 28]			
+	ldr	w0, [sp, 28]
+	add	sp, sp, 32
+	ret
+	.size	func, .-func
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"You win!"
+	.align	3
+.LC1:
+	.string	"You Lose :("
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func
+	cmp	w0, 0
+	bne	.L4
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	puts
+	b	.L6
+.L4:
+	adrp	x0, .LC1
+	add	x0, x0, :lo12:.LC1
+	bl	puts
+.L6:
+	nop
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+```
+
+
+* Now, the  `str` command  basically stores user input to the stack and the `mov` command moves a value to the corresponding register.
+* Here are the comments I made for self reference along the way:
+
+![Pasted image 20241208215853](https://github.com/user-attachments/assets/5a99b07b-d2a7-480d-8532-e6f41c250681)
+
+
+I shall explain the first few commands and new commands as we come across them:
+
+* First, [sp,12] basically refers to the memory in the stack +12, and in that memory we're going to store the RHS, that is `w0` in this case.
+* Next, `mov` w0,79 refers to moving the number **79** into the register w0.
+* This continues till line 16, where we're met with a new command `ldr`, which is used to load a value from memory into a register. So it moves the value corresponding to [sp,20] which is 7 (line 13) to the register `w0`. 
+* In line 18, we come across the command `lsl`, which performs **Logical Left Shift** operation on the given registers.  The computation is in the above image. All computations were made using a simple python program.
+* Coming to line 22, `sdiv` performs **Signed Integer Division** operation on the given numbers. It basically just divides them and considers the decimals redundant. 
+* Following the commands till line 25 is extremely straight-forward. Now, at this point, `3770` is loaded into `w1`, and **x is the argument that the question requires**. 
+
+Upon analysis of the complete code, I saw that the `win` condition would only be activated when
+-`w0` and 0 are compared and found to be equal, i.e. `w0`= 0.
+
+![Pasted image 20241208220418](https://github.com/user-attachments/assets/4aa0ac90-f0db-415a-b494-ebfbdfe66cd8)
+
+Oh and `bne` stands for **Branch if Not Equal**, which basically gets skipped if the statement is true, which we want it to be, as `.L4` leads to a `loss` result. In line 57, we have `.LC0` which leads us to the `win` condition. 
+
+![Pasted image 20241208220639](https://github.com/user-attachments/assets/cace94f5-896c-4cd9-93f2-13ce3af29d0b)
+
+What do we take away from this? That x must be 3370 in order for `w0` to be 0 (line 26).
+
+Since that is our argument, **3370** in hex is D2A, or in our requested format, **00000D2A**.
+
+**Incorrect Tangents**
+* Initially failed to understand sequencing of the code and how to arrive at the win condition.
+* Spent a lot of time on understanding the code for this challenge and then making notes at every step. 
+
+**References**
+* https://www.programiz.com/python-programming/online-compiler/
+* https://www.rapidtables.com/convert/number/decimal-to-hex.html?x=3370
+* https://armasm.com/docs/registers-and-memory/memory-copy/
 
