@@ -46,3 +46,44 @@ Website is a simple HTML based website with a search bar that invites us to ente
 **Mistakes Made**
 * Spent a lot of time in PowerShell because I thought this involved changing the path there using certain commands. 
 * Tried appending the relative path to the URL instead of the textbox at first.
+
+
+# SOAP
+
+**Flag: `picoCTF{XML_3xtern@l_3nt1t1ty_55662c16}`**
+
+**Thought Process**
+
+* Since I had done a challenge on XXE injections in **Advent of Cyber 2024**, this one should be pretty straightforward.
+* Since the challenge is based on XXE injections, I opened up BurpSuite and in the browser, pasted the link of the instance to get the website running and ready to be intercepted. The website is a simple HTML website that has a "Details" button that can be interacted with.
+* Once I clicked on the "Details" button, This is the POST request I intercepted and sent to Repeater (Ctrl+R)
+
+
+![Pasted image 20241208154220](https://github.com/user-attachments/assets/7ddf3ab3-e0cb-48c2-a411-c2d0515ddf0f)
+
+
+Doing a quick google search for an XXE payload script, i came across this
+
+```html
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]> <stockCheck><productId>&xxe;</productId></stockCheck>
+```
+
+So adding this line to our current HTML POST request, it would look something like this
+
+```html
+< ?xml version="1.0" encoding="UTF-8"? >
+< !DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ] >
+<data><ID>
+2
+</ID></data>
+```
+
+
+also, replace 2 with `&xxe;` as to match the script, and once we send the request, the flag is in the list of passwords.
+
+![Pasted image 20241208154923](https://github.com/user-attachments/assets/0d3f99fe-ab72-43e1-9425-6844b426dfaa)
+
+
+
+**References**
+* https://portswigger.net/web-security/xxe
