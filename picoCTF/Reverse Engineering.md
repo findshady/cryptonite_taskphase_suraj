@@ -403,5 +403,8 @@ info registers eax
 which gives us the hex value `0x4af4b`, which is `307019` in decimal.
 
 **New Things Learnt**
-* The value of registers change as we perform operations on it, instead of manually performing the operation on the `eax` register, i simply accessed the value at the register after all the operations had be performed. 
+* The value of registers change as we perform operations on it, instead of manually performing the operation on the `eax` register, i simply accessed the value at the register after all the operations had be performed. ****
 
+
+**References**
+* https://www.rapidtables.com/convert/number/hex-to-decimal.html?x=4AF4B
