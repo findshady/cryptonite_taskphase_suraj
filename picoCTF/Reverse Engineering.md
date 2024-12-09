@@ -408,3 +408,114 @@ which gives us the hex value `0x4af4b`, which is `307019` in decimal.
 
 **References**
 * https://www.rapidtables.com/convert/number/hex-to-decimal.html?x=4AF4B
+
+
+# GDB baby step 3
+
+**Flag: `picoCTF{0x6bc96222}`**
+
+**Thought Process**
+* This one was a little different from the other gdb challenges. I started off with the same procedure of disassembling the function `main`. 
+
+```bash
+gef➤  disass main
+Dump of assembler code for function main:
+   0x0000000000401106 <+0>:     endbr64
+   0x000000000040110a <+4>:     push   rbp
+   0x000000000040110b <+5>:     mov    rbp,rsp
+   0x000000000040110e <+8>:     mov    DWORD PTR [rbp-0x14],edi
+   0x0000000000401111 <+11>:    mov    QWORD PTR [rbp-0x20],rsi
+   0x0000000000401115 <+15>:    mov    DWORD PTR [rbp-0x4],0x2262c96b
+   0x000000000040111c <+22>:    mov    eax,DWORD PTR [rbp-0x4]
+   0x000000000040111f <+25>:    pop    rbp
+   0x0000000000401120 <+26>:    ret
+End of assembler dump.
+```
+
+* In the challenge description, we're asked to examine byte-wise the memory that the constant is loaded in. Also, in one of the hints it is mentioned that any registers used in our command should be prepended with `$`. 
+
+* In this case, we can see that the register that is corresponding to our memory location is `[rbp-0x4]`.  Also, we're asked not to use square brackets for registers in the command.
+
+Now, all that's left to do is add a breakpoint after the memory location provided, and run it and then use the command that we're asked to use.
+
+![Pasted image 20241210001012](https://github.com/user-attachments/assets/feb4aa1d-674f-40d3-abcc-80b1f834d61f)
+
+The command that we're asked to use is the `x/4xb addr` command where `addr` is the register at the corresponding memory location. In this case it is the register [rbp-0x4]. Following their instructions of formatting, the command will be 
+
+```bash
+x/4xb $rbp-0x4
+```
+
+Where, 
+* `x` stands for examine.
+* `4` is the number of bytes.
+* `b` stands for **Bytes**.
+* `$` is mandatory to be prepended before a register.
+
+![Pasted image 20241210001354](https://github.com/user-attachments/assets/0d0d526c-be0d-49ff-841b-4e2bdb830b2c)
+
+Thus the contents for our flag will be `0x6bc962222`
+
+**New Things Learnt**
+* Examining memory using the `x` command. 
+* Getting comfortable with setting breakpoints and reading contents of registers in `gdb`.
+
+**References**
+* https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_55.html
+
+# GDB baby step 4
+
+**Flag: `picoCTF{12905}`**
+
+**Thought Process**
+* This challenge only took me one command under `gdb`.
+* Once the file was downloaded, i disassembled the main function (like the previous programs) and noticed that the function was called `func1`.
+
+```bash
+gef➤  disass main
+Dump of assembler code for function main:
+   0x000000000040111c <+0>:     endbr64
+   0x0000000000401120 <+4>:     push   rbp
+   0x0000000000401121 <+5>:     mov    rbp,rsp
+   0x0000000000401124 <+8>:     sub    rsp,0x20
+   0x0000000000401128 <+12>:    mov    DWORD PTR [rbp-0x14],edi
+   0x000000000040112b <+15>:    mov    QWORD PTR [rbp-0x20],rsi
+   0x000000000040112f <+19>:    mov    DWORD PTR [rbp-0x4],0x28e
+   0x0000000000401136 <+26>:    mov    DWORD PTR [rbp-0x8],0x0
+   0x000000000040113d <+33>:    mov    eax,DWORD PTR [rbp-0x4]
+   0x0000000000401140 <+36>:    mov    edi,eax
+   0x0000000000401142 <+38>:    call   0x401106 <func1>
+   0x0000000000401147 <+43>:    mov    DWORD PTR [rbp-0x8],eax
+   0x000000000040114a <+46>:    mov    eax,DWORD PTR [rbp-0x4]
+   0x000000000040114d <+49>:    leave
+   0x000000000040114e <+50>:    ret
+End of assembler dump.
+```
+
+
+Now, to know what constant the function multiplied the register `eax` by, I needed to disassemble the function using 
+
+```bash
+gef➤  disass func1
+```
+
+and then i saw this
+
+```bash
+gef➤  disass func1
+Dump of assembler code for function func1:
+   0x0000000000401106 <+0>:     endbr64
+   0x000000000040110a <+4>:     push   rbp
+   0x000000000040110b <+5>:     mov    rbp,rsp
+   0x000000000040110e <+8>:     mov    DWORD PTR [rbp-0x4],edi
+   0x0000000000401111 <+11>:    mov    eax,DWORD PTR [rbp-0x4]
+   0x0000000000401114 <+14>:    imul   eax,eax,0x3269
+   0x000000000040111a <+20>:    pop    rbp
+   0x000000000040111b <+21>:    ret
+End of assembler dump.
+```
+
+Clearly, the constant in question has to be `0x3269` which when converted to binary gave me `12905` which was the answer.
+
+**New Things Learnt**
+* Disassembling functions other than main
