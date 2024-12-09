@@ -519,3 +519,6 @@ Clearly, the constant in question has to be `0x3269` which when converted to bin
 
 **New Things Learnt**
 * Disassembling functions other than main
+
+**References**
+* https://www.rapidtables.com/convert/number/hex-to-decimal.html?x=3269
