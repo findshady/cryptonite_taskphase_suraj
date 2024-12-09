@@ -368,3 +368,40 @@ Since that is our argument, **3370** in hex is D2A, or in our requested format, 
 * https://www.rapidtables.com/convert/number/decimal-to-hex.html?x=3370
 * https://armasm.com/docs/registers-and-memory/memory-copy/
 
+# GDB baby step 2
+
+**Flag: `picoCTF{307019}`**
+
+
+**Thought Process**
+* This is extremely similar to the previous gdb challenge, all i had to do was start up gdb and disassemble the file.
+* Then, I disassembled main using 
+
+```bash
+gef➤  disassemble main
+```
+
+which led me to this
+
+![Pasted image 20241209181147](https://github.com/user-attachments/assets/11b73bcb-9cd5-414a-bab6-f58c3e05cee5)
+
+Since our question asks the contents of the `eax `register at the END of the `main` function, as we see in the above screenshot, the last instance of the `eax` register is found at the memory location `0x000000000040113e`, so we're going to add a breakpoint at the very next memory location i.e
+
+```bash
+ b *0x0000000000401141
+```
+
+![Pasted image 20241209181412](https://github.com/user-attachments/assets/824a7031-0cb3-449d-9535-a6cbec8104c5)
+
+After setting the breakpoint, we're going to run the program from there using the command `r`, and then all we have to do is use 
+
+```bash
+info registers eax
+```
+
+
+which gives us the hex value `0x4af4b`, which is `307019` in decimal.
+
+**New Things Learnt**
+* The value of registers change as we perform operations on it, instead of manually performing the operation on the `eax` register, i simply accessed the value at the register after all the operations had be performed. 
+
