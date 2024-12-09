@@ -388,3 +388,44 @@ After we gain remote access to the Virtual Machine, all we have to do is use the
 
 
 # Day 9
+
+**New Things Learnt**
+* Introduction to GRC (Governance, Risk and Compliance) is an organizational strategy to manage governance and risks while maintaining compliance with industry and government regulations.
+* Basic Risk Assessment: **Identification of Risks**, ﻿**Assigning Likelihood to Each Risk**, **Assigning Impact to Each Risk**, **Risk Ownership**, 
+
+After reading through all the challenge, I understood most of the methodology around GRC, and faced some questions 
+
+Vendor 1:
+![Pasted image 20241209234329](https://github.com/user-attachments/assets/767eec6c-5156-4cd9-8e7c-4d39380399f2)
+
+![Pasted image 20241209234652](https://github.com/user-attachments/assets/4fb67e4a-a7e8-4458-ad9f-98c1519f86c5)
+
+![Pasted image 20241209234845](https://github.com/user-attachments/assets/2d950574-631a-4144-a8f4-1b2e7dd99791)
+
+
+Vendor 2:
+
+![Pasted image 20241209235102](https://github.com/user-attachments/assets/ae99fed9-d111-4ee3-a078-b38dcdaa424d)
+
+
+![Pasted image 20241209235201](https://github.com/user-attachments/assets/69fc09fd-e9d2-401b-986e-a95d0a3d0519)
+
+![Pasted image 20241209235310](https://github.com/user-attachments/assets/936ce858-864d-4561-bd02-076426620a76)
+
+
+Vendor 3:
+
+![Pasted image 20241209235415](https://github.com/user-attachments/assets/2b999de5-d4fa-41eb-a84c-a6df4a7aec02)
+
+![Pasted image 20241209235515](https://github.com/user-attachments/assets/f3b7cac9-1131-4ea3-bfc6-0361f320e1e0)
+
+![Pasted image 20241209235310](https://github.com/user-attachments/assets/92bb0cdd-69f8-4941-8fda-dd3ff24fe29d)
+
+
+
+
+
+1. Once we identify the vendor with the lowest risk, we get the flag `THM{R15K_M4N4G3D}`
+
+2. The full form of GRC is `Governance, Risk, and Compliance`
+
