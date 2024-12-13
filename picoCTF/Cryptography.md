@@ -340,6 +340,7 @@ print(h)
 The modifications I made to the code:
 * Removed the case that tended to calculation of inverse of even powers.
 * Added a few lines to make the output in hexadecimal, as we want it in ASCII.
+* Initialized low to 0.
 
 ![Pasted image 20241213164457](https://github.com/user-attachments/assets/f714fad6-45b1-4c01-bf04-1b45dc58e09a)
 
