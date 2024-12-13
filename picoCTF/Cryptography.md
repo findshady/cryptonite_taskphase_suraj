@@ -299,3 +299,68 @@ if __name__ == "__main__":
 
 
 
+# miniRSA
+
+**Flag: `picoCTF{n33d_a_lArg3r_e_d0cd6eae}`**
+
+**Thought Process**
+* After doing my research on RSA challenges, I noticed that in this challenge, e is extremely small (smallest value it can hold infact) and that there is no padding constant.
+* A padding constant *k* is used when $m^n$, and it's formula is m = $\sqrt[e]{C+k.N}$, where:
+    * C: Cipher Key
+    * N: Part of both public and private key
+    * *e*: Public Key Exponent
+* In this case, padding constant (*k*) is zero. This means that we can directly find the *e*th root of c.
+* To find this, online calculators weren't precise enough so I found a really simple code to find the inverse power of a number on [StackOverflow](https://stackoverflow.com/questions/52313392/compute-cube-root-of-extremely-big-number-in-python3) and modified it.
+
+```python
+def find_invpow(x, n):
+    low = 0
+    high = 1
+
+	while high ** n < x:
+        high *= 2
+
+    while low < high:
+        mid = (low + high) // 2
+
+        if mid ** n < x:
+            low = mid + 1
+	        else:
+            high = mid
+    return low - 1  
+
+f = find_invpow(2205316413931134031074603746928247799030155221252519872650080519263755075355825243327515211479747536697517688468095325517209911688684309894900992899707504087647575997847717180766377832435022794675332132906451858990782325436498952049751141, 3)
+
+h = hex(f)
+
+print(h)
+```
+
+
+The modifications I made to the code:
+* Removed the case that tended to calculation of inverse of even powers.
+* Added a few lines to make the output in hexadecimal, as we want it in ASCII.
+
+![Pasted image 20241213164457](https://github.com/user-attachments/assets/f714fad6-45b1-4c01-bf04-1b45dc58e09a)
+
+The output I got was `0x7069636f4354467b6e3333645f615f6c41726733725f655f64306364366561657c`.
+Now, removing the `0x` and converting this to ASCII, we get the string `picoCTF{n33d_a_lArg3r_e_d0cd6eae}`.
+
+
+**Alternative Method**
+* The easiest way to solve this challenge was to simply use https://www.dcode.fr/rsa-cipher.
+* Here all we had to do was input the required values and it spit out the flag.
+
+**New Concepts Learnt**
+* Learnt the basic theory and working of RSA.
+* Learnt the case that e (Public Key Exponent) is much much lesser than N(Part of both public and private key), and that we could directly just take the cube root.
+
+**Incorrect Tangents**
+* Tried to find the cube root using an online calculator which led to answers with insufficient precision and therefore, the wrong flag.
+* Forgot to exclude `0x` while decoding from hex to ASCII.
+
+**References**
+* https://ir0nstone.gitbook.io/crypto/rsa/public-exponent-attacks/small-e
+* https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Encryption
+* https://stackoverflow.com/questions/52313392/compute-cube-root-of-extremely-big-number-in-python3
+* https://www.rapidtables.com/convert/number/hex-to-ascii.html
