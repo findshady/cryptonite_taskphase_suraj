@@ -429,3 +429,79 @@ Vendor 3:
 
 2. The full form of GRC is `Governance, Risk, and Compliance`
 
+# Day 10
+
+
+**New Things Learnt**
+* The basics of phishing attacks. 
+* The basics of macros in Microsoft apps.
+
+**Phishing is basically just sending bait to a user/ a large amount of users hoping that they click on a malicious file/ link and then stealing/accessing their data**.
+
+**Macros** are a set of programmed instructions designed to automate repetitive tasks.
+
+
+Now, for this challenge, we're going to create a malicious document. Basically a word document with macros. After following their instructions, we now have a malicious document.
+
+Next, we're going to listen for incoming connections by starting a reverse TCP handler on their IP.
+Once that's done, we're going to go to the provided website and enter their given credentials, and send a flashy e-mail to `marta@socmas.thm`, who is our target user.
+
+If the user falls for it, we should see this
+![Pasted image 20241213131756](https://github.com/user-attachments/assets/8a0c5d1f-3465-44f7-a384-ea7a0c2c761a)
+
+Now, the flag is on the user's desktop, in order to access it, we're gonna `cd` there and then read it using `cat`
+
+![Pasted image 20241213131924](https://github.com/user-attachments/assets/ed019797-ae8e-49d6-b0f2-32035bbfff80)
+
+1. The flag is `THM{PHISHING_CHRISTMAS}`
+
+# Day 11
+
+**New Things Learnt**
+* A better understanding of Wi-Fi.
+* Learning about different types of Wi-Fi attacks.
+* Learning about WPA/WPA2 cracking attack.
+
+
+After reading thru the website and learning about different types of attacks, in this challenge, we're going to use WPA/WPA2 cracking.
+
+First, we follow their instructions and using their commands, we would scan for nearby Wi-Fi networks using our `wlan2` device.
+
+1. To find the BSSID of our wireless interface, we simply use the command `iw dev` and we can see that our BSSID is `02:00:00:00:02:00`.
+2. Using the command `sudo airodump-ng -c 6 --bssid 02:00:00:00:00:00 -w output-file wlan2`, we see that the ESSID/SSID is `MalwareM_AP` and the BSSID is `02:00:00:00:00:00`.  Our answer is `MalwareM_AP, 02:00:00:00:00:00`.
+3. The BSSID of the wireless interface that is already connected to the access point is `02:00:00:00:01:00` .
+
+
+  Now, to get the key (in our second terminal tab), we use the command `sudo aireplay-ng -0 1 -a 02:00:00:00:00:00 -c 02:00:00:00:01:00 wlan2` to generate the following output:
+
+![Pasted image 20241213140005](https://github.com/user-attachments/assets/3760dda5-73bb-4904-9ab3-9c1bb04a34d6)
+
+3. The key is `fluffy/champ24`.
+
+
+# Day 12
+
+**New Things Learnt**
+
+* Understanding  the concept of race condition vulnerabilities.
+* The security flaws in HTTP2
+* Understood why last byte sync is faster than threads.
+
+In this challenge, I understood the vulnerabilities that can occur when there is server latency between the requests being processed. If we send multiple requests in a very very short time frame, we can actually manage to get multiple requests approved. This happens when the server accidentally processes these requests concurrently instead of consecutively.
+
+We're using BurpSuite for this challenge.
+
+Once we have loaded up the website and intercepted the POST request that was triggered by a transaction, we're going to log into account number `101` with password `glitch`. We're told that we have to transfer OVER $2000 from glitch's account. We see that the account only has $2000. What we're going to do is transfer $1000 first, and then 
+* Locate the POST request of that transaction under the `proxy` tab.
+* Send that to repeater (Ctrl+R)
+* Create a new tab group and create 9 new requests (so that we have 10 in total).
+* Next, we're going to send all requests parallelly by using last-byte sync
+
+![Pasted image 20241213150215](https://github.com/user-attachments/assets/f64b799c-3217-4769-ac41-69f0d74e1cbe)
+
+Once we refresh the page in our browser, we're going to see this page
+
+![Pasted image 20241213150329](https://github.com/user-attachments/assets/8ae25c05-cf9f-46a8-85e5-f7dade31e6d0)
+
+1. Our flag is `THM{WON_THE_RACE_007}`.
+
