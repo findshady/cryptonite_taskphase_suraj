@@ -258,7 +258,7 @@ Dialogue: 0,0:00:00.00,0:00:08.89,CJK,,0,0,0,,UnderstaNDAblE Buckbēaĸ SCRéè
 ```
 
 * The last few words intrigued me, and so I went to notepad and I changed my font to Buckbeak and I pasted the last string in notepad using that font and the flag was a little off.
-* Then I went to Windows settings and Font preview and finally got the perfect flag.
+* Then I went to Windows settings and Font preview and finally got this flag.
 
 ![Pasted image 20241216003803](https://github.com/user-attachments/assets/c8beef35-3c53-45aa-9911-d900a9a43078)
 
