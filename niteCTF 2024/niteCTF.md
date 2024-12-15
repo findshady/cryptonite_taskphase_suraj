@@ -69,7 +69,8 @@ Now, the .txt file gives us this table to convert 5 bit binaries to 7 bit binari
 
 Following this, I ended up with this :
 
-![Pasted image 20241215215655](https://github.com/user-attachments/assets/4205a872-c9d9-4b5e-89fe-55f7e91e0013)
+![image](https://github.com/user-attachments/assets/36509427-dafa-4e39-a9e4-09e8c9bc361a)
+
 
 
 * Tried to decipher them, but nothing made sense.
