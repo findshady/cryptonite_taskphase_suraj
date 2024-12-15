@@ -43,7 +43,7 @@ The morse below the part-flag translates to **freekey**, which is a keyword to d
 
 ![Pasted image 20241215214311](https://github.com/user-attachments/assets/38062566-aead-415c-801a-56aebc6ab824)
 
-
+****
 
 # Ancient Ahh Display
 
@@ -106,8 +106,8 @@ Now, from here I had the basic flag that was `nite{trouble_bubble_lol}`, after s
 
 **References**
 * https://www.dcode.fr/7-segment-display?__r=1.59e60746d52737bf7b9f3c5969ba28c5
-* https://blockchain-academy.hs-mittweida.de/litte-big-endian-converter/
 
+****
 
 # U ARe T Detective
 
@@ -141,6 +141,7 @@ Upon trying it, I see this:
 
 ![Pasted image 20241215232101](https://github.com/user-attachments/assets/07ec0860-7446-42f4-b2ea-7b4bfcb5d630)
 
+****
 
 #  Glitch, Please!
 
@@ -167,6 +168,7 @@ Upon trying it, I see this:
 
 * From here on, we just arranged the pictures that we had in the order that we see here to spell out the flag.
 
+****
 
 # BuckSpeak
 
@@ -262,6 +264,7 @@ Dialogue: 0,0:00:00.00,0:00:08.89,CJK,,0,0,0,,UnderstaNDAblE Buckbēaĸ SCRéè
 **References**
 * https://legacy.wmich.edu/mus-theo/ciphers/bucking.html
 
+****
 
 # Le Casa de Papel 
 
