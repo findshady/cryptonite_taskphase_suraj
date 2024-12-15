@@ -151,7 +151,7 @@ Upon trying it, I see this:
 
 **Thought Process**
 * Since the challenge mentioned that the accused players had exploited the game to **overflow their inventory limits**, upon applying conditional formatting to filter out players that have more than 150 items, exactly 20 players were flagged.
-* Now, obviously the profile picture column of each player had the hex values of an image that spelt out the flag.
+* Now, obviously the profile picture column of each player had the RGB values of an image that spelt out the flag.
 * One of my teammates wrote a python script to extract the images of all 20 accused players and once we had the images, it was only a matter of sorting them in a certain way that spelt out the flag.
 
 
