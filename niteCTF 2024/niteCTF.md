@@ -25,7 +25,8 @@ The link led to a download link for .jpg file that had a picture of a duck.
 * I knew the numbers had to refer to the position of the characters within the para(x: line, y: word, z: character)
 * I input all of this to ChatGPT and it gives me the following output
 
-![[WhatsApp Image 2024-12-15 at 20.43.56_8b56b806.jpg]]
+![WhatsApp Image 2024-12-15 at 20 43 56_8b56b806](https://github.com/user-attachments/assets/ef7b4a70-a8f9-49d0-98da-57860bd5d6a6)
+
 
 Obviously a discord link, that after some fixing became:  https://discord.gg/AHj7R2Qd
 
@@ -35,11 +36,13 @@ Obviously a discord link, that after some fixing became:  https://discord.gg/AHj
 
 * Upon scanning the QR code, we are blessed with a .wav file that my teammate thought sounded creepy and upon uploading it in Audacity and turning on the option for **Muti-View** (basically had morse code)
 
-![[Pasted image 20241215214216.png]]
+![Pasted image 20241215214216](https://github.com/user-attachments/assets/13f73f91-84bb-4d6e-bfe2-1bf4d2ae347e)
+
 
 The morse below the part-flag translates to **freekey**, which is a keyword to decipher the first part of our flag 
 
-![[Pasted image 20241215214311.png]] 
+![Pasted image 20241215214311](https://github.com/user-attachments/assets/38062566-aead-415c-801a-56aebc6ab824)
+
 
 
 # Ancient Ahh Display
@@ -50,18 +53,21 @@ The morse below the part-flag translates to **freekey**, which is a keyword to d
 * We're given an excel sheet and a .txt file with data in it and the challenge hints towards the final output being on a Basys 3 Artix-7 display, which is basically a 7 segment display.
 * Since the text file only mentioned these, i removed the rest from the Excel sheet:
 
-![[Pasted image 20241215215313.png]]
+![Pasted image 20241215215313](https://github.com/user-attachments/assets/63cdf375-645b-4669-8061-c2817b07cfd7)
 
 * I ended up with: 
-![[Pasted image 20241215215502.png]]
+![Pasted image 20241215215502](https://github.com/user-attachments/assets/ae9fae7d-1a1c-49ce-9356-ed283c6fdf08)
+
 
 Now, the .txt file gives us this table to convert 5 bit binaries to 7 bit binaries ( I used default cases for `11111`)
 
-![[Pasted image 20241215215614.png]]
+![Pasted image 20241215215614](https://github.com/user-attachments/assets/df8b5b2f-dd22-4460-9aa7-369bb90b0aca)
+
 
 Following this, I ended up with this :
 
-![[Pasted image 20241215215655.png]]
+![Pasted image 20241215215655](https://github.com/user-attachments/assets/4205a872-c9d9-4b5e-89fe-55f7e91e0013)
+
 
 * Tried to decipher them, but nothing made sense.
 * Realized that this was in little endian and I had to convert it to big endian. 
@@ -98,7 +104,7 @@ Following this, I ended up with this :
 
 * Now, after inputting this into my favorite website which had a 7-Segment Decoder, I got the following output
 
-![[Pasted image 20241215221233.png]]
+![Pasted image 20241215221233](https://github.com/user-attachments/assets/2d10d42d-de57-4938-b357-2b5a28926ebe)
 
 **The Switch On/Off LEDs option had to be ticked, I spent a while thinking I had the wrong numbers**
 
@@ -122,7 +128,7 @@ Now, from here I had the basic flag that was `nite{trouble_bubble_lol}`, after s
 * After setting my data bits to 7 and data format to ACSII, I still had to figure out the baud rate, which seemed crucial to get the flag characters, because all I had gotten until now were frame errors.
 
 
-![[Pasted image 20241215224135.png]]
+![Pasted image 20241215224135](https://github.com/user-attachments/assets/5db681ca-3d74-4cd0-81e6-2e482d926084)
 
 * After simply adding 0s to the end of the preset value for baud bits, I start to see different colored boxes appear (RX data and RX data bits). I also see the start and stop bit pop up.
 * Now all i had to do was find the right baud rate, which took a lot of trial and error.
@@ -130,17 +136,17 @@ Now, from here I had the basic flag that was `nite{trouble_bubble_lol}`, after s
 
 Upon trying it, I see this:
 
-![[Pasted image 20241215231050.png]]
+![Pasted image 20241215231050](https://github.com/user-attachments/assets/9892fd21-1066-4f45-a52e-922b62cc0f24)
 
 * I knew I had to make the stop bit align with the end of the signal, just like how the start bit aligns with the start, so I started increased it and I got closed to the perfect value.
 
 * Since I started with 2 million, as I went from 5 million to 6 million, the stop bit of the first signal started overlapping with the start bit of the second signal. (My software crashed a total of 12 times during these shenanigans).
 
-![[Pasted image 20241215231803.png]]
+![Pasted image 20241215231803](https://github.com/user-attachments/assets/27b7ccf4-2fba-4f0d-af79-87d822d1bd4b)
 
 * Since the I got the first character, and because of the overlap, i now know it's gotta be between 5 and 6 mil, and sure enough, 5.5 million was where it was at.
 
-![[Pasted image 20241215232101.png]]
+![Pasted image 20241215232101](https://github.com/user-attachments/assets/07ec0860-7446-42f4-b2ea-7b4bfcb5d630)
 
 
 #  Glitch, Please!
@@ -153,18 +159,18 @@ Upon trying it, I see this:
 * One of my teammates wrote a python script to extract the images of all 20 accused players and once we had the images, it was only a matter of sorting them in a certain way that spelt out the flag.
 
 
-![[Pasted image 20241215233348.png]]
+![Pasted image 20241215233348](https://github.com/user-attachments/assets/1f33fa11-f40d-47fe-9978-5a2df3331b9f)
 
 * We created a new excel sheet that had the data of only the accused. 
 
 * Since we know that the flag started with **nite{**  the images that corresponded to those letters were numbered 10,16,8,4 and 7 (Referring to the very first row starting with 0).
-![[Pasted image 20241215234324.png]]
+![Pasted image 20241215234324](https://github.com/user-attachments/assets/db7e4d6b-027c-4296-8863-5a33eaa54d6c)
 
 
 * We had to sort these in a way that we'd get these serial numbers in the same order.
 * After a while, I finally found that when the players are sorted according to their scores in the ascending order, I got the numbers 10,16,8,4 and 7 in order. (Basically getting the first 5 characters of the flag).
 
-![[Pasted image 20241215233856.png]]
+![Pasted image 20241215233856](https://github.com/user-attachments/assets/8be5cce9-fb5d-4095-9086-39f076cd0fbc)
 
 * From here on, we just arranged the pictures that we had in the order that we see here to spell out the flag.
 
@@ -176,19 +182,19 @@ Upon trying it, I see this:
 **Thought Process**
 * The challenge started with a .wav file that looked like this when opened in Audacity and with spectrogram enabled
 
-![[Pasted image 20241216001031.png]]
+![Pasted image 20241216001031](https://github.com/user-attachments/assets/143330fc-a546-48a2-9f81-88b2990f9ad6)
 
 * Furthermore, we tried putting the .wav file into **DeepSound**, as hinted,  but it kept prompting for a password.
 
 * Using the hint, we come across a cipher named Bücking cipher, and the website converted plaintext to that cipher.
 
-![[Pasted image 20241216001550.png]]
+![Pasted image 20241216001550](https://github.com/user-attachments/assets/30659289-3ff4-4938-999c-6a794c057f03)
 
 * My music nerd teammate manually listened to the the .wav file multiple times and using her knowledge of music notes, extracted characters individually.
 * Finally, she found the plaintext to be `usephrasetruefansreadthebookstohearsomethingdeep`
 * Obviously, the password for the DeepSound had to be `truefansreadthebooks`
 
-![[Pasted image 20241216001913.png]]
+![Pasted image 20241216001913](https://github.com/user-attachments/assets/193cc17b-37c4-497a-8a4f-edc44f78283b)
 
 * DeepSound yielded 2 secret files, one was a .txt file so they don't get sued and the other was a .mkv file that was just a video of Malfoy getting bodied by BuckBeak.
 
@@ -215,7 +221,8 @@ mkvextract attachments screech.mkv 1:Buckbeak.otf
 
 * Once the font was installed, it took me a while to find the ciphertext, I analyzed all the files that we'd gotten from the beginning of the challenge and ran a bunch of commands on them to extract something hidden but in vain.
 * While scanning the output of the `mkvinfo` command, I notice that there also exists Track Number 2 and 3. 
-![[Pasted image 20241216002827.png]]
+![Pasted image 20241216002827](https://github.com/user-attachments/assets/a30b9237-e0bf-4632-b505-6180e9fe1ee5)
+
 
 * I extract track 2 and 3 using 
 ```bash
@@ -256,7 +263,7 @@ Dialogue: 0,0:00:00.00,0:00:08.89,CJK,,0,0,0,,UnderstaNDAblE Buckbēaĸ SCRéè
 * The last few words intrigued me, and so I went to notepad and I changed my font to Buckbeak and I pasted the last string in notepad using that font and the flag was a little off.
 * Then I went to Windows settings and Font preview and finally got the perfect flag.
 
-![[Pasted image 20241216003803.png]]
+![Pasted image 20241216003803](https://github.com/user-attachments/assets/c8beef35-3c53-45aa-9911-d900a9a43078)
 
 
 **References**
@@ -276,7 +283,7 @@ Dialogue: 0,0:00:00.00,0:00:08.89,CJK,,0,0,0,,UnderstaNDAblE Buckbēaĸ SCRéè
 * Upon selecting option 3 and inputting the vault code in, we're given the flag.
 
 
-![[Pasted image 20241216004932.png]]
+![Pasted image 20241216004932](https://github.com/user-attachments/assets/a6c10ff6-d573-4949-ad91-a55f18bfd10a)
 
 **References**
 * https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)&input=WWpSbE1HRTRNREkwTWpoallqTTFaalk1WXpCbE9UVXlaRGsyTVRjeVpEWT0
