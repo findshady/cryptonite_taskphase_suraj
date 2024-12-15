@@ -64,17 +64,6 @@ The morse below the part-flag translates to **freekey**, which is a keyword to d
 
 Now, the .txt file gives us this table to convert 5 bit binaries to 7 bit binaries ( I used default cases for `11111`)
 
-![Pasted image 20241215215614](https://github.com/user-attachments/assets/df8b5b2f-dd22-4460-9aa7-369bb90b0aca)
-
-
-Following this, I ended up with this :
-
-![image](https://github.com/user-attachments/assets/36509427-dafa-4e39-a9e4-09e8c9bc361a)
-
-
-
-* Tried to decipher them, but nothing made sense.
-* Realized that this was in little endian and I had to convert it to big endian. 
 * Finally ended up with :
 
 ```
