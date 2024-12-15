@@ -196,7 +196,7 @@ Upon trying it, I see this:
 * DeepSound yielded 2 secret files, one was a .txt file so they don't get sued and the other was a .mkv file that was just a video of Malfoy getting bodied by BuckBeak.
 
 
-* Next, I ran the command `mkvinfo screech.kmv` to find 
+* Next, I ran the command `mkvinfo screech.mkv` to find 
 ```bash
 + Attachments
 | + Attached
