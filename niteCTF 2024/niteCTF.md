@@ -139,6 +139,8 @@ Upon trying it, I see this:
 
 * Since the I got the first character, and because of the overlap, i now know it's gotta be between 5 and 6 mil, and sure enough, 5.5 million was where it was at.
 
+![image](https://github.com/user-attachments/assets/4e52b94b-0a28-4dbc-806a-ef637624ab98)
+
 ![Pasted image 20241215232101](https://github.com/user-attachments/assets/07ec0860-7446-42f4-b2ea-7b4bfcb5d630)
 
 ****
