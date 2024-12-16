@@ -505,3 +505,117 @@ Once we refresh the page in our browser, we're going to see this page
 
 1. Our flag is `THM{WON_THE_RACE_007}`.
 
+
+# Day 13
+
+**New Things Learnt**
+
+* Learnt about web sockets, which basically keep the line of communication open between your browser and the server.
+* However, they pose a lot of security risks.
+* We're going to use BurpSuite to intercept messages and track MM's car in today's chall.
+
+* After going to the provided IP, we see a website where we can track a person's car and send messages, a live chatroom is perfect for web sockets.
+
+* Now, after opening up BurpSuite, we navigate over to the Proxy tab and then when we turn on intercept and then click on the "track" button on the website.
+* Here, to track Mayor Malware's car, all we have to do is change the user ID to "8", and then click on forward.
+
+1. This gives us our first flag: `THM{dude_where_is_my_car}`
+![Pasted image 20241216143334](https://github.com/user-attachments/assets/07ac8c87-1a01-452a-b6db-4a523954ef89)
+
+* Similarly, let's send a random message in the chatbox while having intercept ON in BurpSuite.
+* Now that the "To server" WS message has appeared in our BurpSuite, all we have to do is change the user ID to "8" again.
+
+2. Following this, we get our second flag: `THM{my_name_is_malware._mayor_malware}`
+
+
+# Day 14
+
+**New Things Learnt**
+* Self-signing certificates.
+* MITM attacks (Man-In-The-Middle).
+
+**Certificate:** We already know about the constituents of a certificate, a public key and a private key. Also, we have metadata which is additional information about the certificate holder (the website) and the certificate. 
+
+**Certificate Authority**: A CA is a trusted entity that issues certificates.
+
+
+After we resolve the Gift Scheduler’s FQDN locally on our machine by following the given instructions.
+Now, we go to `https://gift-scheduler.thm` and click on advanced>View Certificate.
+Then, a new page opens and we can see the certificate.
+
+1. As we see on the certificate, the name of the organization is `THM`
+
+![Pasted image 20241216183058](https://github.com/user-attachments/assets/1c3495bc-b3f8-457c-ad5e-a97b49ef89db)
+
+Now, we enter our credentials as provided on the website.
+
+After entering the given command into terminal and then going to "HTTP History" in BurpSuite, we see a couple POST requests, one of which is
+
+![Pasted image 20241216184114](https://github.com/user-attachments/assets/1352b599-a371-422c-9a29-ddde9475a8f4)
+
+2. The password is `c4rrotn0s3`
+
+3. Once we log in with the above credentials, we get the flag `THM{AOC-3lf0nth3sh3lf}`
+
+4. To find Marta May Ware's password, we simply just go back to the HTTP history, and go thru the POST requests to find it. `H0llyj0llySOCMAS!`
+
+
+5. Now, after logging into her account, we get the flag: `THM{AoC-h0wt0ru1nG1ftD4y}`.
+
+
+
+# Day 15
+
+
+**New Things Learnt**
+*  Structures of Active Directory.
+* Active Directory Attacks
+
+Active Directory is a Directory Service at the heart of most enterprise networks that stores information about objects in a network.
+
+We shall start by enforcing minimum password lengths and complexity rules.
+
+Upon a bunch of reading and following instructions, coming to the questions.
+
+1. The date and time of Glitch_Malware's login is
+
+
+
+![Pasted image 20241216191147](https://github.com/user-attachments/assets/66c24b0b-7922-4ef2-add3-0cd9e98f9814)
+
+
+`7/11/2024`
+
+2. Event ID is `4624`
+
+3. To find the powershell history, all we had to do was open ConsoleHost_history which was in AppData. The command was 
+
+```bash
+Get-ADUser -Filter * -Properties MemberOf | Select-Object Name
+```
+
+4. After going back to Service logs and searching for "password", we get the password of Glitch_Malware's account.
+
+![Pasted image 20241216192309](https://github.com/user-attachments/assets/d2465cdd-2121-4419-a5ac-906e7a2af455)
+
+`SuperSecretP@ssw0rd!`
+
+
+5. We need to review the group policy Objects present in the machine. All we have to do is open PowerShell and enter the command 
+
+```PowerShell
+ Get-GPO -All
+```
+
+to find 
+
+![Pasted image 20241216192538](https://github.com/user-attachments/assets/54ece46d-a0db-4527-b585-379445aa363f)
+
+The DisplayName is `Malicious GPO - Glitch_Malware Persistence`
+
+
+
+# Day 16
+
+**New Things Learnt**
+* 
