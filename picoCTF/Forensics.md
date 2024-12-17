@@ -184,3 +184,251 @@ binwalk -e tv.bmp
 ![Pasted image 20241217141140](https://github.com/user-attachments/assets/592b4d70-8e42-4011-b97f-6c9aa3452a14)
 
 
+#  Matryoshka doll
+
+**Flag: `picoCTF{ac0072c423ee13bfc0b166af72e25b61}`**
+
+**Thought Process**
+
+* We're given a .jpg file that I used `binwalk `on to find a folder with a file named `2_c.jpg`.
+* I used `binwalk` on that and then it gave me a file named `3_c.jpg`
+* Used `binwalk` on that which gave me a `4_c.jpg` along with a `flag.txt` that contained the flag.
+
+# St3g0
+
+**Flag: `picoCTF{7h3r3_15_n0_5p00n_96ae0ac1}`**
+
+**Thought Process**
+* Uploaded the image to https://www.aperisolve.com/ and saw this
+
+![Pasted image 20241217141140](https://github.com/user-attachments/assets/7c7c7322-9e25-4fc1-93f1-40681e42dc13)
+
+# hideme
+
+**Flag: `picoCTF{Hiddinng_An_Imag3_within_@n_ima9e_96539bea}`**
+
+**Thought Process**
+* Literally just binwalk again lol.
+
+
+# PcapPoisoning
+
+**Flag: `picoCTF{P64P_4N4L7S1S_SU55355FUL_4624a8b6}`**
+
+**Thought Process**
+
+* Opened the .pcap file in WireShark and instantly came across this
+
+![Pasted image 20241217173355](https://github.com/user-attachments/assets/beaa431c-4955-451a-a32a-761dde9116e4)
+
+* I knew the flag had to be in one of the packets, So i used **Ctrl+F** and searched for the string "pico" in **Packet Bytes** :
+
+![Pasted image 20241217173818](https://github.com/user-attachments/assets/583846c2-6af6-4549-859b-461501d0ffee)
+
+**Alternative Ways**
+* There had to be a way to do this using just the terminal, so I thought of using the **strings** command to grep the flag, and it worked.
+
+```bash
+strings trace.pcap | grep "picoCTF"
+```
+
+![Pasted image 20241217174257](https://github.com/user-attachments/assets/82285cb9-7620-4cca-b2f3-b708f48a2ca2)
+**New Things Learnt**
+* Learnt that you can grep the contents of Packet bytes of a .pcap file.
+
+# Packets Primer
+
+**Flag: `picoCTF{p4ck37_5h4rk_01b0a0d6}`**
+
+**Thought Process**
+
+* Literally the same process as above, although the flag didn't show up in search as it was spaced out, simply going thru them got me the flag:
+
+![Pasted image 20241217174502](https://github.com/user-attachments/assets/f02d7f97-cce2-4d4c-a938-73624fa2095d)
+
+* Yep this can be grepped using bash just like the previous one, provided you know that the string is spaced out:
+
+![Pasted image 20241217174625](https://github.com/user-attachments/assets/5900ed1a-02c5-4c44-a912-2a1e98663bbb)
+
+# Eavesdrop
+
+**Flag:** `picoCTF{nc_73115_411_0ee7267a}`
+
+**Thought Process**
+* Since we have another .pcap file, I tried to look for the flag string but there was nothing.
+* What I did see, was a conversation between 2 people who were using it to communicate and transfer a file.
+* I then used the command 
+
+```bash
+strings flag.pcap
+```
+
+and in the results i came across these lines:
+
+![Pasted image 20241217180300](https://github.com/user-attachments/assets/d09ce730-6da5-419b-8795-3d47d625168f)
+
+![Pasted image 20241217180247](https://github.com/user-attachments/assets/caedda0e-a928-4cff-8a05-b4ade09422b9)
+
+* We see two things, a command and a port (9002).
+* So I went over to 9002 and found :
+
+![Pasted image 20241217180352](https://github.com/user-attachments/assets/6b7070f5-f8e6-4ae5-8e57-92a415a8b93a)
+
+* The command mentioned a file `file.des3`, so I created a file with the same name and extension and inside the file I put the ASCII string I found above, and then I ran the command on my shell, to get hit with this
+
+![Pasted image 20241217175648](https://github.com/user-attachments/assets/a746ceae-e52f-4446-908f-68e513eb1267)
+
+* I replaced the ASCII string with it's corresponding HEX string, still the same error.
+
+* After spending an hour troubleshooting, I tried using this command instead of merely creating a file named "file.des3" and pasting the HEX string into it.
+
+```bash
+xxd -r -p input.txt file.des3
+```
+
+where input.txt had my HEX string and file.des3 was an empty file.
+
+* This gave me a new message:
+
+![Pasted image 20241217183219](https://github.com/user-attachments/assets/e8d4ba83-3f35-46da-99a3-4c01fbbd1d52)
+
+and when I checked my folder, `file.txt` had the flag.
+
+
+**New Things Learnt**
+* A better understanding of navigating thru .pcap files.
+
+# endianness-v2
+
+**Flag:**`picoCTF{cert!f1Ed_iNd!4n_s0rrY_3nDian_94cc03f3}`
+
+**Thought Process**
+
+* We have a file with no extension, no context except that it was recovered from a 32-bit system.
+* Using the `file` command on it gives us:
+
+```bash
+$ file challengefile
+challengefile: data
+```
+
+* Using the `strings` command was unyielding aswell.
+
+* I even tried running `gdb` on the file and turns out there are no defined functions.
+
+```bash
+gef➤  info functions
+All defined functions:
+```
+
+* Finally ran `exiftool` on it to see
+
+```bash
+$ exiftool file
+ExifTool Version Number         : 12.40
+File Name                       : file
+Directory                       : .
+File Size                       : 3.3 KiB
+File Modification Date/Time     : 2024:12:17 18:36:02+05:30
+File Access Date/Time           : 2024:12:17 18:39:39+05:30
+File Inode Change Date/Time     : 2024:12:17 18:39:39+05:30
+File Permissions                : -rwxrwxrwx
+Warning                         : Processing JPEG-like data after unknown 1-byte 
+```
+
+* Then, I opened it in https://hexed.it/ and upon reading the first line 
+
+![Pasted image 20241217185949](https://github.com/user-attachments/assets/ef29512c-897c-4ddb-82be-9c7a84206077)
+
+* Upon comparing the header to a list of known header files, I knew this had to be a JFIF file but with a twist.
+
+![Pasted image 20241217190149](https://github.com/user-attachments/assets/a3fe14b8-fc52-427a-bf4c-a80618861a54)
+
+
+ * As the name suggested, it had to do something with endian-ness, which refers to the order in which data is stored. For example, Let us consider 0x12345678
+     * In little endian, it would be stored as follows: (LSB first, as the name suggests):
+     78 56 34 12
+     * In big endian, it would be stored in the format:
+     12 34 56 78
+
+* My first instinct was to convert the file from little endian (we know that since 32-bit files are usually in little endian) to big endian.
+
+There are multiple ways to do this.
+
+1. The easiest way I found to convert a file from Little endian to Big endian was [CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex('Space',0)Swap_endianness('Hex',4,true)From_Hex('Auto')Render_Image('Raw')) using the following settings.
+
+![Pasted image 20241217190645](https://github.com/user-attachments/assets/c710217a-d1fb-4493-8e39-4dd95b2ee268)
+
+2. I came across this command 
+
+```bash
+hexdump -v -e '1/4 "%08x" '-e' "\n"' input_file | xxd -r -p > output_file
+```
+
+where:
+* `-v`: Forces `hexdump` to display the full content, including repeating values.
+* `-e`: Specifies output format:
+* `1/4` refers to reading and displaying in chunks of 4 bytes.
+* `"%08x" ensures that each 4 byte chunk is displayed in hexadecimal format, even if it means padding with zeros.
+* **-e ' "\n" '**   specifies the endline character to be appended after every 4 byte chunk, so that each 4 byte chunk will be printed in a new line.
+
+* `xxd` paired with `-r` refers to **reversing** a hex-dump (converting a hex-dump to binary).
+* `-p` just makes sure the whole hex-dump is considered to be one long string, it ignores any spaces and newline characters.
+
+3. You could write a python script to do the same.
+
+
+**New Things Learnt**
+
+* Converting a file from little endian to Big Endian.
+
+
+
+# FindAndOpen
+
+**Flag:**`picoCTF{R34DING_LOKd_fil56_succ3ss_0f2afb1a}` 
+
+**Thought Process**
+
+* We're given 2 files, a .pcap and a .zip file that is password protected, we're told tto analyze the .pcap file to get the password.
+
+* Upon opening the .pcap file in SurfShark, we see a bunch of messages like:
+
+![Pasted image 20241217193202](https://github.com/user-attachments/assets/af211d77-b4e1-4faf-b23e-0892715ff629)
+
+![Pasted image 20241217193213](https://github.com/user-attachments/assets/896ea86c-4776-46ac-874e-55596216e0c6)
+
+*  Interestingly, in frame #48, we see this Base64 encoded string.
+
+![Pasted image 20241217193320](https://github.com/user-attachments/assets/65658f10-e663-4874-95a3-e4ad0efa9242)
+
+Converting it, we get the following:
+
+![Pasted image 20241217193639](https://github.com/user-attachments/assets/8e158871-8da1-48c4-b287-f821f5a0825d)
+
+`This is the secret: picoCTF{R34DING_LOKd_`
+
+Since we have the first part of the flag, this is probably the password.
+
+Upon entering the password and unzipping the given .zip, we get a `flag` file containing the full flag.
+
+# MSB
+
+**Flag:**`picoCTF{15_y0ur_que57_qu1x071c_0r_h3r01c_24d55bee}`
+
+**Thought Process**
+
+* Upon reading the challenge name, I knew I had to somehow extract the data MSB wise from the given image.
+* Upon google searching, the first thing that popped up was a tool called **Stegsolve**.
+* Using this, I used the settings set to 
+
+![Pasted image 20241217200409](https://github.com/user-attachments/assets/1eddaa3d-dc71-4642-bf7d-1e54b4403fd1)
+
+
+ And then clicked on "Save Text" which generated a file with all the strings within the .png, now in order of MSB first.
+
+* After opening the outputted file and using **Ctrl+F** to look for the word "pico", we come across the flag.
+
+![Pasted image 20241217201232](https://github.com/user-attachments/assets/042629c4-4057-43af-b7a6-d26327d56ef6)
+
+
