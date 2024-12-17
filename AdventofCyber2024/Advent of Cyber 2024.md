@@ -613,9 +613,60 @@ to find
 
 The DisplayName is `Malicious GPO - Glitch_Malware Persistence`
 
-
-
 # Day 16
 
 **New Things Learnt**
-* 
+* Azure
+* Azure Cloud Shell
+
+
+Azure is a Cloud Service Provider providing computing resources such as computing power on demand in a highly scalable fashion.
+Microsoft Entra ID is an identity and access management (IAM) service. It has the information needed to assess whether a user/application can access X resource.
+
+
+We're given instructions to login into Microsoft Azure and then access the terminal.
+
+ By using the command 
+
+```bash
+az ad group list
+```
+
+We come across
+
+![Pasted image 20241217131440](https://github.com/user-attachments/assets/65a7d35c-4726-4526-9df1-f4ba6d41f684)
+
+2. The Group ID for Secret Recovery Group is `7d96660a-02e1-4112-9515-1762d0cb66b7`
+
+Using the command 
+```bash
+az ad group member list --group "Secret Recovery Group"
+```
+
+1. The password for backupware is `R3c0v3r_s3cr3ts!`
+
+![Pasted image 20241217131649](https://github.com/user-attachments/assets/e6514d9f-f0d7-4e4b-afb4-de2bac821411)
+
+Now, to find out the name of the vault secret, we shall use the command
+
+```bash
+az keyvault secret list --vault-name warevillesecrets
+```
+
+![Pasted image 20241217132108](https://github.com/user-attachments/assets/b6695223-f31d-4b0c-8ea5-54d6b74d6711)
+
+
+3. The name is `aoc2024`
+
+
+Now, to access it's contents, we shall use the final command 
+```bash
+az keyvault secret show --vault-name warevillesecrets --name REDACTED
+```
+
+
+![Pasted image 20241217132243](https://github.com/user-attachments/assets/c83f09a3-f16f-49d7-a331-41a30acb70fd)
+
+4. The value is `WhereIsMyMind1999` (we love a pixies reference)
+
+
