@@ -669,4 +669,38 @@ az keyvault secret show --vault-name warevillesecrets --name REDACTED
 
 4. The value is `WhereIsMyMind1999` (we love a pixies reference)
 
+# Day 17
 
+**New Things Learnt**
+* Extracting custom fields in Splunk
+* Basically navigating thru Splunk
+
+**Splunk** is a platform for collecting, storing, and analysing machine data. It provides various tools for analyzing data, including search, correlation, and visualization.
+
+First, we're given a whole bunch of instructions to fix the logs.
+
+Next, we're going to figure out what users had the most activity on the CCTV system. After going to the visualization tab and changing our type to **Pie Charts**, we see
+
+![Pasted image 20241217232027](https://github.com/user-attachments/assets/df5508c5-2fd2-4454-b8c9-657193173a04)
+
+* Next, we check the logs and sort them according to login **fails**, we notice that they were done consecutively and in a very small span of time, also they were done by one **SessionID**.
+* A **SessionID** is a unique ID assigned to every user for the website to keep track of them, this means that only one person was behind all the failed login attemps.
+
+2. The **SessionID** of the attacker is `rij5uu4gt204q0d3eb7jj86okt`
+
+Now, we're going to search and filter logs by activity that was performed by this SessionID, but then we notice that this SessionID is connected to yet another IP.
+When we set our `index` to `cctv_feed` using the new SessionID, we find that
+
+![Pasted image 20241217232842](https://github.com/user-attachments/assets/744bd1a2-2eb0-405d-8aba-005af8909469)
+
+3. The attacker was none other than  `mmalware`
+
+To see the number of events, we use the command:
+
+```bash
+index=cctv_feed *success*
+```
+
+![Pasted image 20241217232952](https://github.com/user-attachments/assets/58d161b1-5786-4f11-989d-75c4421fd977)
+
+1. The number of logs captured associated with the successful login is `642`
