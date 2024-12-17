@@ -164,4 +164,23 @@ binwalk -e tv.bmp
 
 * It then generated a file flag.txt that contained the flag.
 
+#  Matryoshka doll
+
+**Flag: `picoCTF{ac0072c423ee13bfc0b166af72e25b61}`**
+
+**Thought Process**
+
+* We're given a .jpg file that I used `binwalk `on to find a folder with a file named `2_c.jpg`.
+* I used `binwalk` on that and then it gave me a file named `3_c.jpg`
+* Used `binwalk` on that which gave me a `4_c.jpg` along with a `flag.txt` that contained the flag.
+
+# St3g0
+
+**Flag: `picoCTF{7h3r3_15_n0_5p00n_96ae0ac1}`**
+
+**Thought Process**
+* Uploaded the image to https://www.aperisolve.com/ and saw this
+
+![Pasted image 20241217141140](https://github.com/user-attachments/assets/592b4d70-8e42-4011-b97f-6c9aa3452a14)
+
 
