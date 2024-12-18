@@ -619,7 +619,7 @@ icat flag.img -o 0001140736 1842
 * Since we see the mention of a file `innocuous-file.txt`, lets grep for it
 
 ```bash
-shady@WIN-3CTPHJ9NI00:/mnt/d/downloads/pico$ strings flag.img | grep "innocuous-file.txt"
+$ strings flag.img | grep "innocuous-file.txt"
 innocuous-file.txt
 innocuous-file.txt
 innocuous-file.txt
