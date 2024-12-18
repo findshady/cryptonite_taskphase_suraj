@@ -413,3 +413,238 @@ Upon entering the password and unzipping the given .zip, we get a `flag` file co
 ![Pasted image 20241217201232](https://github.com/user-attachments/assets/042629c4-4057-43af-b7a6-d26327d56ef6)
 
 
+# advanced-potion-making
+
+**Flag:**`picoCTF{w1z4rdry}`
+
+**Thought Process**
+* We're given a file with no extension. Upon putting this jawn in https://hexed.it/, I notice that the header file is almost like a .png file, So I pull up an example .png file and make the first line of our file exactly like the example .png.
+
+![Pasted image 20241218170323](https://github.com/user-attachments/assets/7f3f8f46-2c2b-444a-845a-cfc9f57aaa09)
+
+* We end up with an image that's just the solid color red.
+
+![Pasted image 20241218170347](https://github.com/user-attachments/assets/67eb8ba1-ab30-4e95-95fd-da891a0d4845)
+
+* I knew the flag had to be in this image, I tried a bunch of steganography websites untill i found [this](https://incoherency.co.uk/image-steganography/#unhide) .
+
+
+![Pasted image 20241218170926](https://github.com/user-attachments/assets/2a600850-ff9f-4cb6-92a2-4fe2fc1d84b6)
+
+
+
+# Lookey here
+
+**Flag:**`picoCTF{gr3p_15_@w3s0m3_2116b979}`
+
+
+**Thought Process**
+* Literally just 
+
+![Pasted image 20241218195200](https://github.com/user-attachments/assets/59bfba09-9a6e-495e-8dc0-e7f5b9fd88c8)
+
+
+# Sleuthkit Intro
+
+**Flag:**`picoCTF{mm15_f7w!}`
+
+**Thought Process**
+* Downloaded the `disk.img` and used the command 
+```bash
+$ mmls disk.img
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000204799   0000202752   Linux (0x83)
+```
+
+and then connected to the instance 
+
+```bash
+$ nc saturn.picoctf.net 59582
+What is the size of the Linux partition in the given disk image?
+Length in sectors: 0000202752
+0000202752
+Great work!
+picoCTF{mm15_f7w!}
+```
+
+**References**
+* https://wiki.sleuthkit.org/index.php?title=Mmls
+
+
+# Sleuthkit Apprentice
+
+**Flag:**`picoCTF{by73_5urf3r_adac6cb4}`
+
+**Thought Process**
+* After following the same instructions as the above chall for this file, I come across this:
+
+```bash
+ mmls flag.img
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000206847   0000204800   Linux (0x83)
+003:  000:001   0000206848   0000360447   0000153600   Linux Swap / Solaris x86 (0x82)
+004:  000:002   0000360448   0000614399   0000253952   Linux (0x83)
+```
+
+* I look up commands to navigate thru the given files and come across the `fls` command. (-o imgoffset)
+
+* Initially, I tried navigating thru the offset at the start of the `Linux Swap` but that didn't work.
+
+```bash
+fls flag.img -o 0000206848
+Cannot determine file system type
+```
+
+* Then I realized I had to look for the sector offset where the file system starts, which is `0000360448`. So modifying my command, I now see
+
+```bash
+fls flag.img -o  0000360448
+d/d 451:        home
+d/d 11: lost+found
+d/d 12: boot
+d/d 1985:       etc
+d/d 1986:       proc
+d/d 1987:       dev
+d/d 1988:       tmp
+d/d 1989:       lib
+d/d 1990:       var
+d/d 3969:       usr
+d/d 3970:       bin
+d/d 1991:       sbin
+d/d 1992:       media
+d/d 1993:       mnt
+d/d 1994:       opt
+d/d 1995:       root
+d/d 1996:       run
+d/d 1997:       srv
+d/d 1998:       sys
+d/d 2358:       swap
+V/V 31745:      $OrphanFiles
+```
+
+* Then, I noticed the `-r` argument along with the command, which generated like 4 million lines of text, almost crashing my pc.
+* I knew the flag file had to somewhere in this so I grepped for "flag".
+
+```bash
+fls flag.img -r -o 0000360448 | grep "flag"
+++ r/r * 2082(realloc): flag.txt
+++ r/r 2371:    flag.uni.txt
+```
+
+* To open flag.txt, I used the command 
+```bash
+fls flag.img -r -o 0000360448 2082 | grep "pico"
+Error extracting file from image (ext2fs_dir_open_meta: Error reading directory contents: 2082
+)
+```
+
+so obviously that didn't work.
+
+* After scanning thru the help page, On the bottom I found the `icat` command that is used to output the contents of a file based on it's inode number 
+
+* Finally after using the command, turns out the flag wasn't in `flag.txt` but rather in `flag.uni.txt`. 
+
+```bash
+icat flag.img -o 0000360448 2371
+picoCTF{by73_5urf3r_adac6cb4}
+```
+
+
+
+**New Things Learnt**
+* A better understanding of .img files.
+* Navigating thru .img files.
+
+
+**References**
+* https://www.sleuthkit.org/sleuthkit/man/fls.html
+* https://www.sleuthkit.org/sleuthkit/man/icat.html
+
+
+# Dear Diary
+
+**Flag:** `picoCTF{1_533_n4m35_80d24b30}`
+
+**Thought Process**
+* I do the exact same method as the previous challenge, display the partitions, list the directories:
+
+```bash
+$ fls flag.img -o  0001140736
+d/d 32513:      home
+d/d 11: lost+found
+d/d 32385:      boot
+d/d 64769:      etc
+d/d 32386:      proc
+d/d 13: dev
+d/d 32387:      tmp
+d/d 14: lib
+d/d 32388:      var
+d/d 21: usr
+d/d 32393:      bin
+d/d 32395:      sbin
+d/d 32539:      media
+d/d 203:        mnt
+d/d 32543:      opt
+d/d 204:        root
+d/d 32544:      run
+d/d 205:        srv
+d/d 32545:      sys
+d/d 32530:      swap
+V/V 119417:     $OrphanFiles
+```
+
+
+* I then see this 
+
+```bash
+icat flag.img -o 0001140736 1842
+2
+ .�
+force-wait.sh4(innocuous-file.txt5�its-all-in-the-name
+                                                            �f��
+```
+
+* Since we see the mention of a file `innocuous-file.txt`, lets grep for it
+
+```bash
+shady@WIN-3CTPHJ9NI00:/mnt/d/downloads/pico$ strings flag.img | grep "innocuous-file.txt"
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+innocuous-file.txt
+```
+
+* I then used the command 
+
+```bash
+grep "innocuous-file.txt" --text flag.img
+```
+
+and it gave me a huge load of data but it had the flags in parts.
+
+![Pasted image 20241218232520](https://github.com/user-attachments/assets/53d9b47e-5c91-4728-88f6-b37aa3a5e4ca)
+
+**Wrong Tangents**
+* Misunderstood the challenge and thought I had to download a software (as the hint mentioned that terminals would lead to misdirection when it came to raw binary data), which I did (Autopsy). Tried solving the chall thru that and it was pretty much the same.
