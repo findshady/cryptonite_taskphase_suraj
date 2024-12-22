@@ -665,7 +665,7 @@ A simple fix would be to take in the inputs as integers using int().
 * All I had to do was input it in [CyberChef](https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)&input=Y0d3ellYTXpYMnd6ZEY5dE0xOHhiblF3WDNSb00xOXpZV1l6) and it gave me the password, which was `pl3as3_l3t_m3_1nt0_th3_saf3`
 
 
-# Safe Opener
+# Safe Opener 2
 
 **Flag:**`picoCTF{SAf3_0p3n3rr_y0u_solv3d_it_3dae8463}`
 
