@@ -751,6 +751,130 @@ Now, we look for the flag. I use the `ls /home` command to start off and from th
 3. The Flag is `THM{WareW1se_Br3ach3d}`.
 
 
+# Day 19
+
+**New Things Learnt**
+*  Interacting with the API of executables.
+* Intercept and modify internal APIs.
+* Navigating thru and using Frida.
+
+The **executable** file of an application is generally understood as a standalone binary file containing the compiled code we want to run. 
+
+In today's chall we're going to be using Frida to intercept all the functions in a certain library to access the functions where the game logic is present.
+
+We're given a game where an NPC asks us a certain OTP, which changes overtime. We modify it's code by navigating to the function that is responsible for the OTP and adding a line to it. 
+
+```javascript
+ log("Parameter:" + args[0].toInt32())
+```
+
+![Pasted image 20241222112821](https://github.com/user-attachments/assets/52648ff9-4b6d-4aa9-9e6c-6f444e88c08e)
+
+1. The 1st Flag is `THM{one_tough_password}`
+
+Now, for the second level, we need to get our coin count to 1,000,000 in order to unlock the flag.
+Once we're inside the corresponding function, we're going to log the values for each parameter trying to buy something.
+
+```javascript
+log("Parameter1:" + args[0].toInt32())
+log("Parameter2:" + args[1].toInt32())
+log("Parameter3:" + args[2].toInt32())
+```
+
+Which logs us the following:
+
+```bash
+602363 ms  _Z17validate_purchaseiii()
+602363 ms  PARAMETER 1: 0x3
+602363 ms  PARAMETER 2: 0xf4240
+602363 ms  PARAMETER 3: 0x4
+```
+
+Where the first parameter is the Item ID and the second is the price, and the third is the player's coins. If we manipulate the price of the item and set it to zero, we can easily get the flag.
+
+Our new script is
+```javascript
+defineHandler({
+  onEnter(log, args, state) {
+    log('_Z17validate_purchaseiii()');
+    args[1] = ptr(0)
+
+  },
+
+  onLeave(log, retval, state) {
+      
+  }
+});
+```
+
+![Pasted image 20241222113700](https://github.com/user-attachments/assets/2cc71b88-6459-490a-87da-7208b165b2e8)
+
+2. The second flag is `THM{credit_card_undeclined}`
+
+
+Similarly, for the third level, upon logging, our return value is 0x0, which may indicate that the boolean flag is set to False, to set it to true, we added a line 
+
+```javascript
+retval.replace(ptr(1))
+```
+
+![Pasted image 20241222114927](https://github.com/user-attachments/assets/ea6f4b29-5d9e-449c-ae3d-ba92ec568bfc)
+
+3. The final flag is `THM{dont_smash_your_keyboard}`
+
+
+# Day 20
+
+**New Things Learnt**
+* Intermediate network traffic analysis thru WireShark.
+* Identifying Indicators of Compromise (IoCs) in the traffic.
+* Understanding how C2 servers operate and communicate with compromised systems.
+
+2. In frame 457, we see this message that has the C2s IP
+
+![Pasted image 20241222132221](https://github.com/user-attachments/assets/007426dd-39e0-4c9f-addb-c271e5ede0cb)
+
+The IP address of the C2 server is `10.10.123.224`.
+
+1. The first message that was sent was `I am in Mayor!`
+
+![Pasted image 20241222133059](https://github.com/user-attachments/assets/da5e366c-cdf7-40c7-b07e-8d9027566dcd)
+
+3. By following the HTTP stream, we see that the command used was `whoami`
+
+4. Again, by following the stream, we're given the filename that is `credentials.txt` and also the decryption key, which we use in CyberChef to decrypt the secret message
+5. which is `THM_Secret_101`
+
+
+
+# Day 21
+
+**New Things Learnt**
+* Intro to Reverse Engineering
+* Structure of a binary file
+* Difference between Disassembly vs Decompiling
+
+**Disassembling** a binary shows the low-level machine instructions the binary will perform.(Basically Assembly)
+**Decompiling** converts the binary into its high-level code, such as C++, C#, etc., making it easier to read. However, this translation can often lose information such as variable names.
+
+In this chall, we're going to be REing a file given to us.
+
+1. Upon putting the file on **ILSpy** and navigating to the main function, which led us to a function called **Form1**, one of the function names under it was `DownloadAndExecuteFile`
+
+![Pasted image 20241222140633](https://github.com/user-attachments/assets/55121811-f5c0-4666-b1cc-1ffa9f3b0d25)
+
+2.  The name of the file to be downloaded is `explorer.exe`
+
+3. The domain name is `mayorc2.thm`
+
+Upon navigating to the main function of the second binary, we see
+
+![Pasted image 20241222154911](https://github.com/user-attachments/assets/ca250cca-12f9-42fd-99d7-e7563c315e94)
+
+4. The name of the zip file is `CollectedFiles.zip`
+
+5. The name of the C2 server is `anonymousc2.thm`
+
 
 
 
