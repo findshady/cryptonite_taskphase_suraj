@@ -522,3 +522,655 @@ Clearly, the constant in question has to be `0x3269` which when converted to bin
 
 **References**
 * https://www.rapidtables.com/convert/number/hex-to-decimal.html?x=3269
+
+
+#  keygenme-py
+
+**Flag:**`picoCTF{1n_7h3_|<3y_of_f911a486}`
+
+**Thought Process**
+* We're given a python file that was basically a license key validation process which includes a trial code.
+* At the start of the code, we're given a format that is `picoCTF{1n_7h3_|<3y_of_xxxxxxxx}`
+* Now, the key includes a dynamic part, meaning it's going to be different for everybody. This is based on the SHA-256 hash of the `username_trial` variable.
+* SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that generates a fixed size, 256-bit (32-byte) hash value from input data of any size.
+
+
+* Now, from this part of the code
+
+```python
+if key[i] != hashlib.sha256(username_trial).hexdigest()[4]:
+
+            return False
+
+        else:
+
+            i += 1
+
+  
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[5]:
+
+            return False
+
+        else:
+
+            i += 1
+
+  
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[3]:
+
+            return False
+
+        else:
+
+            i += 1
+
+#and so on
+```
+
+
+we can see that specific characters from the hash are used to form the dynamic part.
+
+* The dynamic part of the flag is simply:
+    * Character at 4th position in the hash.
+    * Character at 5th position in the hash.
+    *  Character at 3rd position in the hash.
+and so on
+
+Now our script to craft the entire flag including the dynamic part would be
+
+```python
+import hashlib
+
+username = "GOUGH"
+
+part_1 = "picoCTF{1n_7h3_|<3y_of_"
+part_2 = "}"
+
+hash_result = hashlib.sha256(username.encode()).hexdigest()
+
+positions=[4, 5, 3, 6, 2, 7, 1, 8]
+dynamic = "".join([hash_result[pos] for pos in positions])
+
+# Assembling the entire key
+full_key = part_1 + dynamic + part_2
+print("Flag:", full_key)
+```
+
+which gave me the output
+
+```python
+$ python3 new.py
+Flag: picoCTF{1n_7h3_|<3y_of_f911a486}
+```
+
+**New Things Learnt**
+* Gained more knowledge about SHA-256 hashing.
+
+**References**
+* https://www.simplilearn.com/tutorials/cyber-security-tutorial/sha-256-algorithm
+
+# crackme-py
+
+**Flag:**`picoCTF{1|\/|_4_p34|\|ut_502b984b}`
+
+**Thought Process**
+* I'm gonna keep it real for this one. I saw the `bezos_cc_secret` variable and upon reading the code, I found out that this was in ROT-47. 
+* So I headed over to [CyberChef](https://gchq.github.io/CyberChef/#recipe=ROT47(47)&input=QTo0QHIldUxgTS1eTTBjMEFiY00tTUZFMGRfYTNoZ2MzTg) and it directly gave me the flag. Because this is literally just cipher text.
+* A major issue that the code had was in the comparison, where
+
+```python
+if user_value_1 > user_value_2:
+
+        greatest_value = user_value_1
+
+    elif user_value_1 < user_value_2:
+
+        greatest_value = user_value_2
+```
+
+they're comparing numbers alphabetically instead of numerically. This means that it would output 9 to be greater than 10, because the letter "n" comes after the letter "t" in the alphabet.
+
+A simple fix would be to take in the inputs as integers using int().
+
+
+# speeds and feeds
+
+**Flag:**`picoCTF{num3r1cal_c0ntr0l_f3fea95b}`
+
+**Thought Process**
+* Upon running the instance, we're met with a whole bunch of what looks like G-Code (confirmed due to the hint)
+* All I did was google gcode viewer and it led me to [this](https://ncviewer.com/) website in which I inputted all the contents of the G code and it gave me the flag. 
+
+![Pasted image 20241222173301](https://github.com/user-attachments/assets/d47f5893-b489-409f-a05c-0f3fa1adb70c)
+
+**New Things Learnt**
+* Learned about G-Code and how it can be visualized using softwares and websites.
+* G-Code is a language used to control CNC (Computer Numerical Control) machines. It includes instructions for moving a cutting tool along specified paths, including straight lines and arcs.
+
+**References**
+* https://makezine.com/article/digital-fabrication/machining/get-to-know-your-cnc-how-to-read-g-code/
+
+
+
+# Safe Opener
+
+**Flag:**`picoCTFP{pl3as3_l3t_m3_1nt0_th3_saf3}`
+
+**Thought  Process**
+
+* Opened the java file. Looked at the variable `encodedkey`.
+* Knew it had to be Base64 since it was mentioned in the code in the first few lines.
+* All I had to do was input it in [CyberChef](https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)&input=Y0d3ellYTXpYMnd6ZEY5dE0xOHhiblF3WDNSb00xOXpZV1l6) and it gave me the password, which was `pl3as3_l3t_m3_1nt0_th3_saf3`
+
+
+# Safe Opener
+
+**Flag:**`picoCTF{SAf3_0p3n3rr_y0u_solv3d_it_3dae8463}`
+
+**Thought Process**
+* We're given a `.class` file and we're hinted towards decompiling it.
+* Opened the file in [DogBolt.org](https://dogbolt.org/?id=ec8f85ac-40c2-4697-ad8d-f00e9ce1d49b#Ghidra=84) (Could've opened in in Ghidra aswell) and one of the variables literally had the flag written out.
+
+# patchme.py
+
+**Flag:**`picoCTF{p47ch1ng_l1f3_h4ck_f01eabfa}`
+
+**Thought Process**
+* We're given a python file that when run, asks for a password.
+* In the code, we see this function
+
+```python
+def level_1_pw_check():
+
+    user_pw = input("Please enter correct password for flag: ")
+    if( user_pw == "ak98" + \
+                   "-=90" + \
+                   "adfjhgj321" + \
+                   "sleuth9000"):
+
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), "utilitarian")
+        print(decryption)
+        return
+    print("That password is incorrect")
+```
+
+* Obviously, the password string would be all the given strings appended one after the other, which is `ak98-=90adfjhgj321sleuth9000`.
+* Upon entering the password,
+
+```bash
+$ python3 flag.py
+Please enter correct password for flag: ak98-=90adfjhgj321sleuth9000
+Welcome back... your flag, user:
+picoCTF{p47ch1ng_l1f3_h4ck_f01eabfa}
+```
+
+# unpackme.py
+
+**Flag:**`picoCTF{175_chr157m45_cd82f94c}`
+
+**Thought Process**
+* Well, the code we were given was
+
+```python
+import base64
+
+from cryptography.fernet import Fernet
+
+payload = b'gAAAAABkzWGSzE6VQNTzvRXOXekQeW4CY6NiRkzeImo9LuYBHAYw_hagTJLJL0c-kmNsjY33IUbU2IWlqxA3Fpp9S7RxNkiwMDZgLmRlI9-lGAEW-_i72RSDvylNR3QkpJW2JxubjLUC5VwoVgH62wxDuYu1rRD5KadwTADdABqsx2MkY6fKNTMCYY09Se6yjtRBftfTJUL-LKz2bwgXNd6O-WpbfXEMvCv3gNQ7sW4pgUnb-gDVZvrLNrug_1YFaIe3yKr0Awo0HIN3XMdZYpSE1c9P4G0sMQ=='
+key_str = 'correctstaplecorrectstaplecorrec'
+
+key_base64 = base64.b64encode(key_str.encode())
+
+f = Fernet(key_base64)
+
+plain = f.decrypt(payload)
+
+exec(plain.decode())
+```
+
+Which confused me because they had given us everything in place, Literally all i did was add a line that printed `plain.decode()` and my output was
+
+```bash
+$ python3 flag.py
+Flag:
+
+pw = input('What\'s the password? ')
+
+if pw == 'batteryhorse':
+  print('picoCTF{175_chr157m45_cd82f94c}')
+else:
+  print('That password is incorrect.')
+```
+
+# Reverse
+
+**Flag:**`picoCTF{3lf_r3v3r5ing_succe55ful_c83965de}`
+
+**Thought Process**
+* For some reason, I thought this would work and it did. LMAO.
+
+```bash
+$ strings ret | grep pico
+picoCTF{H
+Password correct, please see flag: picoCTF{3lf_r3v3r5ing_succe55ful_c83965de}
+```
+
+* Using the actual method tho, upon using to decompile the file, in the code I see the line
+
+```C
+if (iVar1 == 0) {
+    puts("Password correct, please see flag: picoCTF{3lf_r3v3r5ing_succe55ful_c83965de}");
+    puts(local_38);
+  }
+```
+
+# GDB Test Drive
+
+**Flag:**`picoCTF{d3bugg3r_dr1v3_72bd8355}`
+
+**Thought Process**
+* Now, by simply following the given instructions, we get the flag but I wanted to understand how it works.
+* Once I ran the `layout asm` command, I saw this 
+
+![Pasted image 20241222184443](https://github.com/user-attachments/assets/466b8dca-ab4b-4bd1-85b7-b18ea3f2fcc9)
+
+* In the instructions, we're told to create a breakpoint at `(main+99)` which is `0x132a`. This memory location is where we see a command **sleep** which probably explains why the program does nothing when executed.
+* Now, we're told to jump to `(main+104)` which is at `0x132f`, clearly right after the sleep command, so that it can be evaded, thus making the program run and give us the flag.
+
+
+# Fresh Java
+
+**Flag:**`picoCTF{700l1ng_r3qu1r3d_9332a6be}`
+
+**Thought Process**
+* just popped the file into my favorite decompiling website (https://dogbolt.org/) and it gave me this 
+
+```C
+#include "out.h"
+
+
+void main_java_lang_String___void(String[] param1)
+
+{
+  PrintStream pPVar1;
+  String objectRef;
+  int iVar2;
+  char cVar3;
+  Scanner objectRef_00;
+  
+  objectRef_00 = new Scanner(System_in);
+  pPVar1 = System_out;
+  pPVar1.println("Enter key:");
+  objectRef = objectRef_00.nextLine();
+  iVar2 = objectRef.length();
+  if (iVar2 != 0x22) {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x21);
+  if (cVar3 != '}') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x20);
+  if (cVar3 != 'e') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x1f);
+  if (cVar3 != 'b') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x1e);
+  if (cVar3 != '6') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x1d);
+  if (cVar3 != 'a') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x1c);
+  if (cVar3 != '2') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x1b);
+  if (cVar3 != '3') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x1a);
+  if (cVar3 != '3') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x19);
+  if (cVar3 != '9') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x18);
+  if (cVar3 != '_') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x17);
+  if (cVar3 != 'd') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x16);
+  if (cVar3 != '3') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x15);
+  if (cVar3 != 'r') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x14);
+  if (cVar3 != '1') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x13);
+  if (cVar3 != 'u') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x12);
+  if (cVar3 != 'q') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x11);
+  if (cVar3 != '3') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0x10);
+  if (cVar3 != 'r') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0xf);
+  if (cVar3 != '_') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0xe);
+  if (cVar3 != 'g') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0xd);
+  if (cVar3 != 'n') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0xc);
+  if (cVar3 != '1') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0xb);
+  if (cVar3 != 'l') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(10);
+  if (cVar3 != '0') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(9);
+  if (cVar3 != '0') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(8);
+  if (cVar3 != '7') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(7);
+  if (cVar3 != '{') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(6);
+  if (cVar3 != 'F') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(5);
+  if (cVar3 != 'T') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(4);
+  if (cVar3 != 'C') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(3);
+  if (cVar3 != 'o') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(2);
+  if (cVar3 != 'c') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(1);
+  if (cVar3 != 'i') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  cVar3 = objectRef.charAt(0);
+  if (cVar3 != 'p') {
+    pPVar1 = System_out;
+    pPVar1.println("Invalid key");
+    return;
+  }
+  pPVar1 = System_out;
+  pPVar1.println("Valid key");
+  return;
+}
+
+```
+
+
+* Very clearly, the flag is in the the if statement bracket in reverse order, after extracting the digits, we get `picoCTF{700l1ng_r3qu1r3d_9332a6be}`
+
+
+# Bbbbloat
+
+**Flag:**`picoCTF{cu7_7h3_bl047_695036e3}`
+
+**Thought Process**
+* On running the given executable file, it asks for it's favorite number and I'm surprised 69 wasn't the obvious answer.
+* Again, putting the file in the website gave me and then while going thru the code I saw this line
+
+```C
+if (var_48 != 0x86187)
+        puts("Sorry, that's not it!");
+    else
+```
+
+Converting 0x6187 to binary, we get **549255** and sure enough
+
+```bash
+$ ./bloat
+What's my favorite number? 549255
+picoCTF{cu7_7h3_bl047_695036e3}
+```
+
+# Shop
+
+**Flag:**`picoCTF{b4d_brogrammer_9c118bbf}`
+
+**Thought Process**
+* We're given an instance and it's a shop with different kinds of options to buy and sell stuff.
+* Upon trying to get my coins above 100 (you need a 100 coins to buy the flag), I kept trying things.
+* Initially, I tried to sell negative amounts of things to see if the shop accepted it and it did, but it then gave me negative amount of coins.
+* Now, when I try to BUY negative amount of things
+
+![Pasted image 20241222193851](https://github.com/user-attachments/assets/11474618-b9be-402a-a262-ad8aa8d29e1c)
+
+* All I had to do was convert the flag from binary to ASCII.
+* Yes, I did try to open the file in Ghidra and try to understand it but it was a vast program,
+
+# Classic Crackme 0x100
+
+**Flag:**`picoCTF{s0lv3_angry_symb0ls_31b29976}`
+
+**Thought Process**
+* This one was fun. We're given a binary to crack. Upon decompiling and reading the source code, I came across the main function (I changed a lot of variable name to make it more understandable)
+  
+```C
+int main()
+
+{
+
+    int var1;
+
+    __builtin_strcpy(&var1, "xjagpediegzqlnaudqfwyncpvkqneusycourkguerjpzcbstcc");
+
+    setvbuf(__TMC_END__, nullptr, 2, 0);
+    printf("Enter the secret password: ");
+    void var5;
+    __isoc99_scanf("%50s", &var5);
+    int i = 0;
+    int x = strlen(&var1);
+    int y = 0x55;
+    int z = 0x33;
+    int var2 = 0xf;
+    char char = 0x61;
+    for (; i <= 2; i += 1)
+    {
+
+        for (int j = 0; j < x; j += 1)
+
+        {
+            int var3 = ((j % 0xff) >> 1 & y) + ((j % 0xff) & y);
+            int var4 = (var3 >> 2 & z) + (z & var3);
+            *(&var5 + j) = char + ((var4 >> 4 & var2) + *(&var5 + j) - char + (var2 & var4)) % 0x1a;
+        }
+    }
+
+    if (memcmp(&var5, &var1, x))
+        puts("FAILED!");
+    else
+        printf("SUCCESS! Here is your flag: %s\n", "picoCTF{sample_flag}");
+    return 0;
+}
+```
+
+* Now, I can tell that the input is going thru a bunch of different operations in the for loop and the output we're getting is `xjagpediegzqlnaudqfwyncpvkqneusycourkguerjpzcbstcc`.
+
+* To craft the perfect input for the flag, I needed to write a script that reverses the operations performed on the string.
+
+```python
+var1 = "xjagpediegzqlnaudqfwyncpvkqneusycourkguerjpzcbstcc"
+x = len(var1)  
+y = 0x55  
+z = 0x33  
+var2 = 0xf  
+char = 0x61 
+
+# first do it for a single char
+def reverse_transform_char(char1, j):
+    var3 = ((j % 0xff) >> 1 & y) + ((j % 0xff) & y)
+    var4 = (var3 >> 2 & z) + (z & var3)
+
+# reversing the transformation applied to the char
+    transformed_char = ord(char1) - char
+    result_char = (transformed_char - ((var4 >> 4 & var2) + (var2 & var4))) % 0x1a + char
+    return chr(result_char)
+
+# now for every char
+def reverse_transform(v0):
+    result = []
+    for j in range(x):
+        result.append(reverse_transform_char(v0[j], j))
+    return ''.join(result)
+  
+# now reversing the loop, by running 3 iterations
+def find_password():
+    transformed = var1
+    original = transformed
+
+    for i in range(3):
+        original = reverse_transform(original)
+    return original
+
+  
+password = find_password()
+print("the og password is :", password)
+```
+
+
+**New Things Learnt**
+* Beginner level binary cracking by reversing the program.
+
+
+# unpackme
+
+**Flag:**`picoCTF{up><_m3_f7w_5769b54e}`
+
+**Thought Process**
+* First off, the file is compressed using UPX, which is a software used to compress binaries and make files harder to reverse engineer. How I found that out is by attempting to decompile the file and so many of the strings mentioned UPX and I googed it.
+* Now, after downloading UPX on my computer, I ran it's command and after successfully unpacking it, I could now see the proper source code.
+* After running Ghidra on it, the main function looked like this
+
+![Pasted image 20241222213335](https://github.com/user-attachments/assets/ec31c9e7-93d4-42b9-aa62-63a62d481cc5)
+
+* Right off the bat, we notice that the input (`local_44`) is being compared to a hex `0xb83cb` which is `754635` in binary.
+
+* So now, executing the file, we have
+
+![Pasted image 20241222213453](https://github.com/user-attachments/assets/992b1190-b47f-4142-8b05-1790441cc73e)
+
