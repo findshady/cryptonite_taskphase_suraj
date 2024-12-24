@@ -648,3 +648,80 @@ and it gave me a huge load of data but it had the flags in parts.
 
 **Wrong Tangents**
 * Misunderstood the challenge and thought I had to download a software (as the hint mentioned that terminals would lead to misdirection when it came to raw binary data), which I did (Autopsy). Tried solving the chall thru that and it was pretty much the same.
+
+
+# Blast from the past
+
+**Flag:**``
+
+**Thought Process**
+
+* We're given a .jpg file and we're told that we need to change it's timestamps. First I open see the metadata of the file using `exiftool` and it's pretty long with a lot of different variables that hold time, I'm going to assume we need to change all of them to get the flag.
+* Now, we're supposed to set all of them to `1970:01:01 00:00:00.001+00:00`, which is basically one millisecond after 1st January 1970, which in epoch is literally **1**.
+* Now, to change the values of the metadata, we can use bash commands like 
+
+```bash
+exiftool -DateTimeOriginal="1970:01:01 00:00:00" -SubSecTimeOriginal="001" -OffsetTimeOriginal="+00:00" original.jpg
+```
+
+* But I found that opening the file in https://hexed.it/ and changing the values from there is much simpler.
+
+* After making edits and changing the values of whatever I saw that was "2023" to "1970" (and their corresponding sub-values), I upload my file and see this
+
+![Pasted image 20241224200027](https://github.com/user-attachments/assets/6e28196b-1591-4e62-9cf9-5e8e6e10c5aa)
+
+* Again, I look for the `703` and change it to `001` as this represents the milliseconds.
+
+![Pasted image 20241224200154](https://github.com/user-attachments/assets/7421e170-74e0-47a4-9093-c38ae8a2e2e6)
+
+* This time, The last tag to be changed was the "TimeStamp" one, for this I had to scroll all the way to the end of the hexdump to find the 2023 date in epoch format.
+
+![Pasted image 20241224200255](https://github.com/user-attachments/assets/5a9e2b58-2739-4ec9-b496-3de89b919736)
+
+* Literally just had to change the numbers to `0000000000001` and finally 
+
+![Pasted image 20241224200545](https://github.com/user-attachments/assets/736f5410-0755-4da1-9c21-f95eb574ab74)
+
+# Redaction gone wrong
+
+**Flag:**`picoCTF{C4n_Y0u_S33_m3_fully}`
+
+**Thought Process**
+* Opened the .pdf file, saw some black bars but then when I dragged my mouse over them I could copy the text inside, this basically meant I can copy all the contents so I used the shortcuts **Ctrl+A** and then **Ctrl+C** and then pasted the contents to my notepad to see
+
+![Pasted image 20241224201400](https://github.com/user-attachments/assets/2bbf3b9b-a7dd-4377-acbc-ca12412d8d46)
+
+# File types
+
+**Flag:**`picoCTF{f1len@m3_m@n1pul@t10n_f0r_0b2cur17y_3c79c5ba}`
+
+**Thought Process**
+* We're given a certain `Flag.pdf` which is obviously not a pdf and upon using the `file` command, I know it's a shell executable so I used
+
+```bash
+sh Flag.pdf
+```
+
+and it created a new file called `flag` .
+
+* And here the cycle began. It first created an `ar archive`, and upon using `binwalk`, i got a `.gzip` compressed file.
+* Basically, inside one compressed file we had another and they're all compressed with different techniques and had to be decompressed. The file name and extension had to be changed quite a lot of times too.
+* For simplicity, I made a list of all the types of compression used (in order, after gzip):
+    * LZ4
+    * LZMA
+    * LZOP
+    * LZIP
+    * XZ
+
+* Finally, we come across an ASCII file that had the text
+
+```
+7069636f4354467b66316c656e406d335f6d406e3170756c407431306e5f
+6630725f3062326375723137795f33633739633562617d0a
+```
+
+which, when decoded from hex, was `picoCTF{f1len@m3_m@n1pul@t10n_f0r_0b2cur17y_3c79c5ba}`
+
+**References**
+* https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')&input=NzA2OTYzNmY0MzU0NDY3YjY2MzE2YzY1NmU0MDZkMzM1ZjZkNDA2ZTMxNzA3NTZjNDA3NDMxMzA2ZTVmCjY2MzA3MjVmMzA2MjMyNjM3NTcyMzEzNzc5NWYzMzYzMzczOTYzMzU2MjYxN2QwYQ
+
