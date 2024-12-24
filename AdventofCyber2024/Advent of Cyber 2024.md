@@ -876,7 +876,114 @@ Upon navigating to the main function of the second binary, we see
 5. The name of the C2 server is `anonymousc2.thm`
 
 
+# Day 22
 
+**New Things Learnt**
+
+* About Kubernetes
+* About DFIR (Digital Forensics and Incident Response)
+* How DFIR can be done in a Kubernetes environment using log analysis
+
+Kubernetes is a container orchestration system.
+
+Now, to access some logs, we're going to use the command `cat pod_apache2_access.log`, which leads us to 
+
+![Pasted image 20241224180614](https://github.com/user-attachments/assets/ff62342f-bab0-4ec1-9cd2-21be735cb74e)
+
+1. The name of the shell is `shelly.php`
+2.  The name of the file he read is `db.php`
+3. The name of the tool he used to create a remote connection is `nc` or NetCat.
+
+Now, using the provided command we get
+
+```bash
+$ cat docker-registry-logs.log | grep "HEAD" | cut -d ' ' -f 1 172.17.0.1 
+172.17.0.1 
+172.17.0.1 
+.
+.
+.
+10.10.130.253 
+10.10.130.253 
+10.10.130.253
+```
+
+4. The unexpected IP is `10.10.130.253 `
+
+5. Now to find the time of the connection of the IP to the docker registry, we use the command 
+
+```bash
+cat docker-registry-logs.log | grep "10.10.130.253"
+```
+
+6. which gives us `29/Oct/2024:10:06:33 +0000` 
+
+7. To find out the time when the malicious image was pushed, we use the command
+
+```bash
+cat docker-registry-logs.log | grep "10.10.130.253" | grep "PATCH"
+```
+
+which instantly tells us that the image was pushed at `29/Oct/2024:12:34:28 +0000`
+
+After following a lot more instructions revolving the investigation, we finally reach the end of the puzzle, to uncover the secret, the following command is used
+
+```bash
+kubectl get secret pull-creds -n wareville -o jsonpath='{.data.\.dockerconfigjson}' | base64 --decode
+```
+
+and we finally see the contents of the secrets:
+8. 
+```
+{"auths":
+{"http://docker-registry.nicetown.loc:5000":{"username":"mr.nice","password":"Mr.N4ughty","auth":"bXIubmljZTpNci5ONHVnaHR5"}}}
+```
+
+
+
+# Day 23
+
+**New Things Learnt**
+* Hash functions and hash values
+* Saving hashed passwords
+* Cracking hashes
+
+In this chall, we're given a hashed password and we're going to use a password wordlist (which is basically just a huge list of common passwords). We're also going to use john the ripper using the command 
+
+```bash
+john --format=raw-sha256 --rules=wordlist --wordlist=/usr/share/wordlists/rockyou.txt hash1.txt
+```
+
+
+![Pasted image 20241224190658](https://github.com/user-attachments/assets/759bd1d5-4a2e-4125-97a2-0c5d92838e74)
+
+1. MM's password is `flufflycat12`
+
+Now, to capture the flag that's in `private.pdf`, we first have to crack it's password since it's password protected. 
+
+For that we're going to use the command
+
+```bash
+john --rules=single --wordlist=wordlist.txt pdf.hash
+```
+
+The password is `M4y0rM41w4r3 `
+
+Furthermore, we're going to convert the .pdf to text using the command 
+
+```bash
+pdftotext private.pdf -upw M4y0rM41w4r3
+```
+
+Now, we can read the first 10 lines of the newly formed private.txt using 
+
+```bash
+head private.txt
+```
+
+which gives us the flag 
+
+2. `THM{do_not_GET_CAUGHT}`
 
 
 
