@@ -986,4 +986,32 @@ which gives us the flag
 2. `THM{do_not_GET_CAUGHT}`
 
 
+# Day 24
+
+**New Things Learnt**
+* The basics of the MQTT protocol (Message Queuing Telemetry Transport)
+* Wireshark to analyze MQTT traffic
+* Reverse engineering a simple network protocol
+
+
+ MQTT is a language very commonly used in IoT devices for communication purposes. It works on a publish/subscribe model, where any client device can publish messages, and other client devices can subscribe to the messages if they are related to a topic of interest.
+
+* We're only given one challenge, a file and we're asked to turn the lights on. A challenge file and a .pcap file. 
+* After going thru the network packets, one of them ended with an "o n" which might be a hint so I clicked on it and copied the contents of the `topic`. 
+* Then, I open terminal and upon navigating to the directory, I use the command 
+
+```bash
+mosquitto_pub -h localhost -t "d2FyZXZpbGxl/Y2hyaXN0bWFzbGlnaHRz" -m "on" 
+```
+
+and finally see 
+
+![Pasted image 20241224232437](https://github.com/user-attachments/assets/842d9f6e-b6b1-433e-8719-a38f99fd48e0)
+
+1. The flag is `THM{Ligh75on-day54ved}`.
+
+# Certificate of Completion
+
+![Pasted image 20241224232846](https://github.com/user-attachments/assets/1596ec18-701e-43b8-9ac9-069439307240)
+
 
