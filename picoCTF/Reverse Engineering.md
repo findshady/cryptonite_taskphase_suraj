@@ -630,7 +630,7 @@ if user_value_1 > user_value_2:
         greatest_value = user_value_2
 ```
 
-they're comparing numbers alphabetically instead of numerically. This means that it would output 9 to be greater than 10, because the letter "n" comes after the letter "t" in the alphabet.
+they're comparing numbers alphabetically instead of numerically. This means that it would output 9 to be greater than 10, because when you compare strings, you're comparing one character at a time. Which means that between 9 and 10, string comparision is being done and since 9 has a higher ASCII value than 1, 9 is outputted to be greater than 10
 
 A simple fix would be to take in the inputs as integers using int().
 
